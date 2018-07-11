@@ -27,4 +27,9 @@ class FileController extends Controller
     	$file = $this->fileService->edit($id);
     	return view('backend.files.edit', compact('file'));
     }
+
+    public function update(Request $request)
+    {
+    	echo "string";exit;
+    }
 }
