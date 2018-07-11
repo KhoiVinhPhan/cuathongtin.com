@@ -8,7 +8,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 	<link rel="stylesheet" href="">
 	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/style.css') }}"/>
+	
+	<link href="{{ url('DataTables/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+	<!-- Javascript -->
+	<script src="{{ asset('jquery/jquery-3.3.1.min.js') }}"></script>
+	<script src="{{ url('DataTables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('DataTables/js/dataTables.bootstrap.min.js') }}"></script>
+    
+
 </head>
 <body>
 	<body>
@@ -18,7 +26,7 @@
 					<a class="navbar-brand" href="#">Cửa thông tin</a>
 				</div>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="{{route('indexFile')}}">File</a></li>
 					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Page 1-1</a></li>
@@ -60,14 +68,10 @@
 				</ul>
 			</div>
 		</nav>
-
 		
-		<div class="form-group">
-			<label for="comment">Comment:</label>
-			<textarea class="form-control" rows="5" id="comment"></textarea>
+		<div class="col-sm-12">
+			@yield('content')
 		</div>
-
-		<script src="../../../../jquery/jquery-3.3.1.min.js"></script>
-	    <script src="../../../../bootstrap/js/bootstrap.min.js"></script>
+	    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 	</body>
 </html>

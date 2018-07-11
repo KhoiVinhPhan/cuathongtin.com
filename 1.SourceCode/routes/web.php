@@ -22,4 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Route auth (manager)
 Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
     Route::get('/', 'HomeController@index');
+    Route::get('file', 'FileController@index')->name('indexFile');
+    Route::get('file/{id}/edit', 'FileController@edit')->name('editFile');
+    Route::put('file/update', 'FileController@update')->name('updateFile');
+
 });
