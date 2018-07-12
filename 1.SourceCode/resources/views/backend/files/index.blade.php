@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="panel panel-primary">
-	  	<div class="panel-heading">Danh sách file <a href="" title="Thêm mới"><button type="button" class="btn btn-success btn-sm">Thêm mới</button></a></div>
+	  	<div class="panel-heading">Danh sách file <a href="{{ route('createFile') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm">Thêm mới</button></a></div>
 	  	<div class="panel-body">
 	  		<table class="table table-bordered" id="table">
 			    <thead>
@@ -20,7 +20,7 @@
 			    		@php($i++)
 				      	<tr>
 				        	<td>{{$i}}</td>
-				        	<td>{{$item->title}}</td>
+				        	<td><a href="{{ route('editFile', ['id'=>$item->file_id]) }}" title="Chi tiết">{{$item->title}}</a></td>
 				        	<td>{{$item->nameUser}}</td>
 				        	<td>{{$item->created_at}}</td>
 				        	<td>
@@ -56,6 +56,11 @@
 			    }
 			});
 
+			//check session create
+			var checkCreate = '<?php echo Session::get('checkCreate'); ?>';
+			if(checkCreate == 'error'){
+				toastr.error('Có lỗi khi tạo mới')
+			}
 			
 		});
 	</script>

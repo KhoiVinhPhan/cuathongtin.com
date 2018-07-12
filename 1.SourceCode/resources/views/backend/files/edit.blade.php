@@ -45,6 +45,12 @@
 				}
 			});
 		});
+
+		//check session create
+		var checkCreate = '<?php echo Session::get('checkCreate'); ?>';
+		if(checkCreate == 'success'){
+			toastr.success('Tạo mới thành công')
+		}
 	});
 </script>
 @endsection

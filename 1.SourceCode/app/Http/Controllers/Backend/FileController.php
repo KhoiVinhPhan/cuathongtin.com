@@ -35,4 +35,19 @@ class FileController extends Controller
     	$data = $this->fileService->update($input);
         return $data;
     }
+
+    public function create()
+    {
+        return view('backend.files.create');
+    }
+
+    public function store(Request $request)
+    {
+        $input = $request->all();
+        if($file_id = $this->fileService->store($input)){
+            return redirect('/manager/file/'.$file_id.'/edit')->with(['checkCreate' => 'success']);
+        }else{
+            return redirect('/manager/file')->with(['checkCreate' => 'error']);
+        }
+    }
 }

@@ -28,4 +28,9 @@ class FileService implements FileServiceContract
         return $this->fileRepository->update($input);
     }
 
+    public function store($input)
+    {
+        return $this->fileRepository->store($input);
+    }
+
 }

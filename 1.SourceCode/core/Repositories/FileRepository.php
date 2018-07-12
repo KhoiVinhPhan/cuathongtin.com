@@ -3,6 +3,7 @@
 namespace Core\Repositories;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use App\Models\File;
 
 class FileRepository implements FileRepositoryContract
 {
@@ -12,6 +13,7 @@ class FileRepository implements FileRepositoryContract
         $data = DB::table('files')
                     ->select('files.*', 'users.name as nameUser')
                     ->join('users', 'users.user_id', '=', 'files.user_id_maked')
+                    ->orderBy('file_id', 'desc')
                     ->whereNull('files.deleted_at')
                     ->get();
         return $data;
@@ -38,6 +40,25 @@ class FileRepository implements FileRepositoryContract
                         'updated_at'        => now(),
                     ]);
         return $data;
+    }
+
+    public function store($input)
+    {
+        DB::beginTransaction();
+        try{
+            $data = array(
+                'title'         => $input['title'],
+                'content'       => $input['content'],
+                'user_id_maked' => Auth::user()->user_id,
+                'created_at'    => now(),
+            );
+            $file_id = File::create($data)->file_id;
+            DB::commit();
+            return $file_id;
+        } catch(\Exception $e){
+            DB::rollback();
+            return false;
+        }
     }
 
 }
