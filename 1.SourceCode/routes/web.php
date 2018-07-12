@@ -28,4 +28,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::put('file/update', 'FileController@update')->name('updateFile');
     Route::get('file/create', 'FileController@create')->name('createFile');
     Route::post('file/store', 'FileController@store')->name('storeFile');
+
+    //USER
+    Route::get('user', 'UserController@index')->name('indexUser');
 });

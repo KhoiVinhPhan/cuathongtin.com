@@ -10,7 +10,7 @@
 	  	<div class="panel-body">
 	  		<div class="form-group">
 	  			<label>Tiêu đề</label>
-	  			<input type="text" class="form-control" value="{{$file->title}}" name="title">
+	  			<input type="text" class="form-control" value="{{$file->title}}" id="title" name="title">
 	  		</div>
 	  		<div class="form-group">
 		         <label>Nội dung</label>
@@ -29,21 +29,26 @@
 	$(document).ready(function(){
 		//Save File
 		$("#btnSave").click(function(){
-			for (instance in CKEDITOR.instances) {
-		        CKEDITOR.instances[instance].updateElement();
-		    }
-			var data = $("#formFileEdit").serialize();
-			$.ajax({
-				type 	: 'PUT',
-				url		: '/manager/file/update',
-				data 	: data,
-				success	: function(result){
-					toastr.success('Lưu thành công')
-				},
-				error 	: function(error){
-					toastr.error('Lỗi không lưu được')
-				}
-			});
+			var length_title = $("#title").val().length;
+			if(length_title > 200){
+				toastr.error('Tiêu đề vượt quá 200 ký tự')
+			}else{
+				for (instance in CKEDITOR.instances) {
+			        CKEDITOR.instances[instance].updateElement();
+			    }
+				var data = $("#formFileEdit").serialize();
+				$.ajax({
+					type 	: 'PUT',
+					url		: '/manager/file/update',
+					data 	: data,
+					success	: function(result){
+						toastr.success('Lưu thành công')
+					},
+					error 	: function(error){
+						toastr.error('Lỗi không lưu được')
+					}
+				});
+			}
 		});
 
 		//check session create
