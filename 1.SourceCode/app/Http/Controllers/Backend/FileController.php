@@ -28,8 +28,11 @@ class FileController extends Controller
     	return view('backend.files.edit', compact('file'));
     }
 
+    //Update with ajax
     public function update(Request $request)
     {
-    	echo "string";exit;
+    	$input = $request->all();
+    	$data = $this->fileService->update($input);
+        return $data;
     }
 }

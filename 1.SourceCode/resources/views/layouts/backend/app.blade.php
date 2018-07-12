@@ -6,16 +6,14 @@
 	<title></title>
 	<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-	<link rel="stylesheet" href="">
+    
 	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"/>
-	
 	<link href="{{ url('DataTables/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-
+	
 	<!-- Javascript -->
 	<script src="{{ asset('jquery/jquery-3.3.1.min.js') }}"></script>
 	<script src="{{ url('DataTables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('DataTables/js/dataTables.bootstrap.min.js') }}"></script>
-    
 
 </head>
 <body>
@@ -73,5 +71,6 @@
 			@yield('content')
 		</div>
 	    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+	    
 	</body>
 </html>

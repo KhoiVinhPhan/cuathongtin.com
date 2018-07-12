@@ -2,6 +2,7 @@
 
 namespace Core\Repositories;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class FileRepository implements FileRepositoryContract
 {
@@ -23,6 +24,19 @@ class FileRepository implements FileRepositoryContract
                     ->whereNull('deleted_at')
                     ->where('file_id','=', $id)
                     ->first();
+        return $data;
+    }
+
+    public function update($input)
+    {
+        $data = DB::table('files')
+                    ->where('file_id', $input['file_id'])
+                    ->update([
+                        'title'             => $input['title'],
+                        'content'           => $input['content'],
+                        'user_id_updated'   => Auth::user()->user_id,
+                        'updated_at'        => now(),
+                    ]);
         return $data;
     }
 
