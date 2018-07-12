@@ -6,7 +6,7 @@
 	<input name="_method" type="hidden" value="PUT">
 	<input name="file_id" type="hidden" value="{{$file->file_id}}">
 	<div class="panel panel-primary">
-	  	<div class="panel-heading">Edit file</div>
+	  	<div class="panel-heading">Chỉnh sửa dữ liệu</div>
 	  	<div class="panel-body">
 	  		<div class="form-group">
 	  			<label>Tiêu đề</label>
@@ -15,15 +15,19 @@
 	  		<div class="form-group">
 		         <label>Nội dung</label>
 		         <textarea name="content" class="form-control" id="editor" value="{{$file->content}}">{{$file->content}}</textarea>
-			</div> 
-	  	</div>
+			</div>
+			<button type="button" class="btn btn-success pull-right" id="btnSave">Lưu</button>
+	  	</div>	  	
 	</div>
-	<button type="button" class="btn-primary btn" id="btnSave">Lưu</button>
+	
 </form>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script> CKEDITOR.replace('editor'); </script>
 <script>
+	CKEDITOR.replace('editor', {
+        height: "500px"
+	}); 
 	$(document).ready(function(){
+		//Save File
 		$("#btnSave").click(function(){
 			for (instance in CKEDITOR.instances) {
 		        CKEDITOR.instances[instance].updateElement();
@@ -34,10 +38,10 @@
 				url		: '/manager/file/update',
 				data 	: data,
 				success	: function(result){
-					alert('tc');
+					toastr.success('Lưu thành công')
 				},
 				error 	: function(error){
-					alert('loi');
+					toastr.error('Lỗi không lưu được')
 				}
 			});
 		});
