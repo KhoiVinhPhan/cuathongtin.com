@@ -45,7 +45,6 @@
             $('#file_avatar_user').trigger('click'); 
             
         });
-
         $("#file_avatar_user").change(function(){
         	if (this.files && this.files[0]) {
                 var reader = new FileReader();
