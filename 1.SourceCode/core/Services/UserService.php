@@ -18,4 +18,14 @@ class UserService implements UserServiceContract
         return $this->userRepository->index();
     }
 
+    public function update($input)
+    {
+    	return $this->userRepository->update($input);
+    }
+
+    public function checkImage()
+    {
+        return $this->userRepository->checkImage();
+    }
+
 }

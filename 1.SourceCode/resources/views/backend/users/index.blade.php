@@ -17,17 +17,17 @@
 	<input type="hidden" name="_method" value="POST">
 	<div class="">
 		<div class="col-sm-2">
-			<img id="img_avatar_user" src="{{ asset('image_user/no_image.png') }}" style="width: 100%; height: auto;" class="thumbnail">
+			<img id="img_avatar_user" src="{{ asset('image_user') }}/<?php if(!empty($image_user)){echo $image_user->filename;}else{echo "no_image.png";} ?>" style="width: 100%; height: auto;" class="thumbnail">
 			<input name="file_avatar_user" type="file" id="file_avatar_user" />
 		</div>
 		<div class="col-sm-5">
 			<div class="form-group">
-				<label>Tên</label>
-				<input type="text" class="form-control" value="{{$user->name}}" name="nameUser">
+				<label>Email</label>
+				<input readonly type="text" class="form-control" value="{{$user->email}}" name="emailUser">
 			</div>
 			<div class="form-group">
-				<label>Email</label>
-				<input type="text" class="form-control" value="{{$user->email}}" name="emailUser">
+				<label>Tên</label>
+				<input type="text" class="form-control" value="{{$user->name}}" name="nameUser">
 			</div>
 		</div>
 		<div class="col-sm-5">
@@ -73,12 +73,10 @@
 	            contentType: false,
 	            processData: false,
 	            success:function(data){
-	                console.log("success");
-	                console.log(data);
+	                toastr.success('Lưu thành công')
 	            },
 	            error: function(data){
-	                console.log("error");
-	                console.log(data);
+	                toastr.error('Lỗi không lưu được')
 	            }
 	        });
 	    }));
