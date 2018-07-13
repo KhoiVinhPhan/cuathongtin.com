@@ -15,10 +15,13 @@
 	<script src="{{ url('DataTables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('DataTables/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('jquery-validation/dist/jquery.validate.min.js') }}"></script>
 
     <!-- Notification -->
     <link href="{{ asset('toastr/build/toastr.css') }}" rel="stylesheet"/>
     <script src="{{ asset('toastr/toastr.js') }}"></script>
+
+    
 
 </head>
 <body>

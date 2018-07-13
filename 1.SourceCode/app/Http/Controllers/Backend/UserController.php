@@ -20,4 +20,10 @@ class UserController extends Controller
     	$user = $this->userService->index();
     	return view('backend.users.index', compact('user'));
     }
+
+    public function update(Request $request)
+    {
+    	$input = $request->all();
+    	echo "<pre>";print_r($input);exit;
+    }
 }
