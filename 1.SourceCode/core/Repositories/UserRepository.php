@@ -29,6 +29,8 @@ class UserRepository implements UserRepositoryContract
                     'name'	=> $input['nameUser'],
                     'email'	=> $input['emailUser'],
                 ]);
+
+            //Update image
 	        if(!empty($input['file_avatar_user'])){
 	        	$filename = uniqid() . "." . $input["file_avatar_user"]->getClientOriginalExtension();
 	        	$data = array(

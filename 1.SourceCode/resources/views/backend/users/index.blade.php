@@ -19,6 +19,7 @@
 		<div class="col-sm-2">
 			<img id="img_avatar_user" src="{{ asset('image_user') }}/<?php if(!empty($image_user)){echo $image_user->filename;}else{echo "no_image.png";} ?>" style="width: 100%; height: auto;" class="thumbnail">
 			<input name="file_avatar_user" type="file" id="file_avatar_user" />
+			<p>Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
 		</div>
 		<div class="col-sm-5">
 			<div class="form-group">
