@@ -31,5 +31,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
 
     //USER
     Route::get('user', 'UserController@index')->name('indexUser');
-    Route::put('user/update', 'UserController@update')->name('updateUser');
+    Route::post('user/update', 'UserController@update')->name('updateUser');
 });

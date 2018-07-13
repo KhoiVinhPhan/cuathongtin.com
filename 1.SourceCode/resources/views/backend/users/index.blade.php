@@ -14,7 +14,7 @@
 </style>
 <form action="{{ route('updateUser') }}" method="POST" id="formUserUpdate" enctype="multipart/form-data">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	<input type="hidden" name="_method" value="PUT">
+	<input type="hidden" name="_method" value="POST">
 	<div class="">
 		<div class="col-sm-2">
 			<img id="img_avatar_user" src="{{ asset('image_user/no_image.png') }}" style="width: 100%; height: auto;" class="thumbnail">
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	<div class="col-sm-12">
-		<button type="button" class="btn btn-success pull-right" id="btnUpdate">Cập nhật</button>
+		<button type="submit" class="btn btn-success pull-right" id="btnUpdate">Cập nhật</button>
 	</div>
 </form>
 <script>
@@ -63,29 +63,27 @@
         });
 
         //Save user
-        $("#btnUpdate").click(function(){
-        	var formValid = $("#formUserUpdate").valid();
-        	if(formValid){
-        		var data = $("#formUserUpdate").serialize();
-        		// var formData = new FormData($("#formUserUpdate")[0]);
+        $('#formUserUpdate').on('submit',(function(e) {
+	        e.preventDefault();
+	        var formData = new FormData(this);
+	        $.ajax({
+	            type:'POST',
+	           	url: '/manager/user/update',
+	            data:formData,
+	            cache:false,
+	            contentType: false,
+	            processData: false,
+	            success:function(data){
+	                console.log("success");
+	                console.log(data);
+	            },
+	            error: function(data){
+	                console.log("error");
+	                console.log(data);
+	            }
+	        });
+	    }));
 
-        		var formData = new FormData();
-		        formData.append('action', 'ajax_handler_import');
-		        formData.append('_ajax_nonce', importNonce);
-
-		        // Issue occures here. PHP gets a string '[object FormData]'.
-		        var importFiles = $('#formUserUpdate')[0].files;
-		        formData.append('uploadFiles', importFiles);
-        		$.ajax({
-        			type: 'PUT',
-        			url: '/manager/user/update',
-        			data: formData,
-        			success: function(result){
-        				console.log(result);
-        			}
-        		});
-        	}
-        });
 	});	
 
 	// Valid Image
