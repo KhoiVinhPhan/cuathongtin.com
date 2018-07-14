@@ -15,6 +15,7 @@ class FileRepository implements FileRepositoryContract
                     ->join('users', 'users.user_id', '=', 'files.user_id_maked')
                     ->orderBy('file_id', 'desc')
                     ->whereNull('files.deleted_at')
+                    ->where('files.user_id_maked', '=', Auth::user()->user_id)
                     ->get();
         return $data;
     }
