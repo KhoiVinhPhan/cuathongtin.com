@@ -1,5 +1,4 @@
 @extends('layouts.backend.app')
-
 @section('content')
 <style type="text/css" media="screen">
 	#file_avatar_user {
@@ -11,13 +10,37 @@
 	#img_avatar_user{
 		cursor: pointer;
 	}
+	.overlay {
+	  	position: absolute; 
+	  	bottom: 0; 
+	  	background: rgb(0, 0, 0);
+	  	background: rgba(0, 0, 0, 0.5);
+	  	color: #f1f1f1; 
+	  	width: 100%;
+	  	transition: .5s ease;
+	  	opacity:0;
+	  	color: white;
+	  	font-size: 10px;
+	  	padding: 10px;
+	  	text-align: center;
+	}
+	.overlayImage {
+	  	position: relative;
+	  	width: 100%;
+	}
+	.overlayImage:hover .overlay {
+	  opacity: 1;
+	}
 </style>
 <form action="{{ route('updateUser') }}" method="POST" id="formUserUpdate" enctype="multipart/form-data">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<input type="hidden" name="_method" value="POST">
-	<div class="">
+	<div>
 		<div class="col-sm-2">
-			<img id="img_avatar_user" src="{{ asset('image_user') }}/<?php if(!empty($image_user)){echo $image_user->filename;}else{echo "no_image.png";} ?>" style="width: 100%; height: auto;" class="thumbnail">
+			<div class="overlayImage">
+				<img id="img_avatar_user" src="{{ asset('image_user') }}/<?php if(!empty($image_user)){echo $image_user->filename;}else{echo "no_image.png";} ?>" style="width: 100%; height: auto;" class="thumbnail">
+				<div class="overlay">Thay đổi</div>
+			</div>
 			<input name="file_avatar_user" type="file" id="file_avatar_user" />
 			<p>Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
 		</div>
@@ -54,7 +77,8 @@
                     {
                         $('#img_avatar_user').attr('src', e.target.result);
                     }else{
-                        $('#img_avatar_user').attr('src', "{{ url('image_user/no_image.png')}}");
+                    	toastr.error('Tệp không đúng định dạng');
+                        $('#img_avatar_user').attr('src', "{{ url('image_user/image_error.png')}}");
                     }
                 }
 
