@@ -15,12 +15,13 @@ class CheckLevel
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
-        if(Auth::check() && Auth::user()->user_permission_id == 1 ) {
+    {        
+        if (Auth::check() && Auth::user()->user_permission_id == '1') {
             return $next($request);
-        }else {
-            return redirect('/');
+        } else {
+            return redirect('/login');
         }
+        
         
     }
 }

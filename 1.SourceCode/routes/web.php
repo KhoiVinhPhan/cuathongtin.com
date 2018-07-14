@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', 'Frontend\HomeController@index');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -32,4 +34,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     //USER
     Route::get('user', 'UserController@index')->name('indexUser');
     Route::post('user/update', 'UserController@update')->name('updateUser');
+});
+
+
+//Route auth (admin-level)
+Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
+    Route::get('demo', function(){echo "trang admin";});
 });
