@@ -28,4 +28,9 @@ class UserService implements UserServiceContract
         return $this->userRepository->checkImage();
     }
 
+    public function getCity()
+    {
+        return $this->userRepository->getCity();
+    }
+
 }

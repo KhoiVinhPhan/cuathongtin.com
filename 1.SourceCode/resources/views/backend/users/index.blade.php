@@ -86,11 +86,17 @@
 				</div>	
 				<div class="form-group">
 				  	<select class="form-control" id="cityUser" name="cityUser">
-					    <option>Thành phố</option>
-					    <option>2</option>
-					    <option>3</option>
-					    <option>4</option>
+					    <option value="-1">Thành phố</option>
+					    @foreach($cities as $item)
+					    	<option value="{{$item->city_id}}">{{$item->name}}</option>
+					    @endforeach
 				  	</select>
+				</div>
+				<div class="form-group">
+			        <div class="input-group">
+					    <span class="input-group-addon">Địa chỉ</span>
+					    <input type="text" class="form-control" name="addressUser">
+					</div>
 				</div>
 			</div>
 			<div class="col-sm-5">

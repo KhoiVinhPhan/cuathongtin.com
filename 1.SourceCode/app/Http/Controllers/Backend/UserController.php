@@ -17,15 +17,15 @@ class UserController extends Controller
 
     public function index()
     {
-    	$user = $this->userService->index();
-        $image_user = $this->userService->checkImage();
-    	return view('backend.users.index', compact('user', 'image_user'));
+    	$user           = $this->userService->index();
+        $image_user     = $this->userService->checkImage();
+        $cities         = $this->userService->getCity();
+    	return view('backend.users.index', compact('user', 'image_user', 'cities'));
     }
 
     public function update(Request $request)
     {
     	$input = $request->all();
-        // echo "<pre>";print_r($input);exit;
         if($this->userService->update($input)){
             return "success";
         }else{
