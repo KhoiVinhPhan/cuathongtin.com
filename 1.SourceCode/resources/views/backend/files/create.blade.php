@@ -15,8 +15,10 @@
 		         <label>Nội dung</label>
 		         <textarea name="content" class="form-control" id="editor"></textarea>
 			</div>
-			<button type="submit" class="btn btn-success pull-right">Tạo</button>
-	  	</div>	  	
+	  	</div>	
+	  	<div class="panel-footer">
+	  		<button type="submit" class="btn btn-success">Tạo</button>
+	  	</div>  	
 	</div>
 </form>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

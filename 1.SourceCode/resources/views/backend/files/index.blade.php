@@ -37,7 +37,7 @@
 		$(document).ready(function(){
 			//format table
 			$('#table').DataTable({
-				"searching"		: true,
+				"searching"		: false,
 				"lengthChange"	: true,
 				"bInfo"			: true,
 				"pageLength"	: 10,

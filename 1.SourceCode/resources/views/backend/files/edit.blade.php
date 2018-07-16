@@ -16,7 +16,10 @@
 		         <label>Nội dung</label>
 		         <textarea name="content" class="form-control" id="editor" value="{{$file->content}}">{{$file->content}}</textarea>
 			</div>
-			<button type="button" class="btn btn-success pull-right" id="btnSave">Lưu</button>
+			
+	  	</div>
+	  	<div class="panel-footer">
+	  		<button type="button" class="btn btn-success" id="btnSave">Lưu</button>	
 	  	</div>	  	
 	</div>
 	

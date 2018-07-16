@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Core\Services\FileServiceContract;
+use Auth;
 
 class FileController extends Controller
 {
@@ -25,6 +26,9 @@ class FileController extends Controller
     public function edit($id)
     {
     	$file = $this->fileService->edit($id);
+        if($file->user_id_maked !== Auth::user()->user_id){        
+            return redirect('/login');
+        }
     	return view('backend.files.edit', compact('file'));
     }
 

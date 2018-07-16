@@ -35,32 +35,36 @@
 <form action="{{ route('updateUser') }}" method="POST" id="formUserUpdate" enctype="multipart/form-data">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<input type="hidden" name="_method" value="POST">
-	<div>
-		<div class="col-sm-2">
-			<div class="overlayImage">
-				<img id="img_avatar_user" src="{{ asset('image_user') }}/<?php if(!empty($image_user)){echo $image_user->filename;}else{echo "no_image.png";} ?>" style="width: 100%; height: auto;" class="thumbnail">
-				<div class="overlay">Thay đổi</div>
+
+	<div class="panel panel-primary">
+      	<div class="panel-heading">Panel with panel-primary class</div>
+      	<div class="panel-body">
+      		<div class="col-sm-2">
+				<div class="overlayImage">
+					<img id="img_avatar_user" src="{{ asset('image_user') }}/<?php if(!empty($image_user)){echo $image_user->filename;}else{echo "no_image.png";} ?>" style="width: 100%; height: auto;" class="thumbnail">
+					<div class="overlay">Thay đổi</div>
+				</div>
+				<input name="file_avatar_user" type="file" id="file_avatar_user" />
+				<p>Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
 			</div>
-			<input name="file_avatar_user" type="file" id="file_avatar_user" />
-			<p>Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
-		</div>
-		<div class="col-sm-5">
-			<div class="form-group">
-				<label>Email</label>
-				<input readonly type="text" class="form-control" value="{{$user->email}}" name="emailUser">
+			<div class="col-sm-5">
+				<div class="form-group">
+					<label>Email</label>
+					<input readonly type="text" class="form-control" value="{{$user->email}}" name="emailUser">
+				</div>
+				<div class="form-group">
+					<label>Tên</label>
+					<input type="text" class="form-control" value="{{$user->name}}" name="nameUser">
+				</div>
 			</div>
-			<div class="form-group">
-				<label>Tên</label>
-				<input type="text" class="form-control" value="{{$user->name}}" name="nameUser">
+			<div class="span5">
+				
 			</div>
-		</div>
-		<div class="col-sm-5">
-			
-		</div>
-	</div>
-	<div class="col-sm-12">
-		<button type="submit" class="btn btn-success pull-right" id="btnUpdate">Cập nhật</button>
-	</div>
+      	</div>
+      	<div class="panel-footer">
+      		<button type="submit" class="btn btn-success" id="btnUpdate">Cập nhật</button>
+      	</div>
+    </div>
 </form>
 <script>
 	$(document).ready(function(){
