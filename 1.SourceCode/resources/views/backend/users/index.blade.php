@@ -46,6 +46,7 @@
 				</div>
 				<input name="file_avatar_user" type="file" id="file_avatar_user" />
 				<p>Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
+				<p>Phân quyền:</p>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
@@ -92,8 +93,17 @@
 				  	</select>
 				</div>
 			</div>
-			<div class="span5">
-				
+			<div class="col-sm-5">
+				<div class="form-group">
+			        <label>Trích dẫn</label>
+			        <textarea name="informatinoUser" class="form-control"></textarea>
+				</div>
+				<div class="form-group">
+			        <div class="input-group">
+					    <span class="input-group-addon">https://www.facebook.com/</span>
+					    <input type="text" class="form-control" name="facebookUser">
+					</div>
+				</div>
 			</div>
       	</div>
       	<div class="panel-footer">
