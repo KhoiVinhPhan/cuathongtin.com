@@ -14,15 +14,26 @@
 	<link rel="stylesheet" href="{{ asset('matrix-admin-package/HTML/css/jquery.gritter.css') }}" />
 	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'> -->
 	<link href="{{ url('DataTables/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+	
 
-	<script src="{{ asset('jquery/jquery-3.3.1.min.js') }}"></script>
+	<!-- <script src="{{ asset('jquery/jquery-3.3.1.min.js') }}"></script> -->
+	<script src="{{ asset('matrix-admin-package/HTML/js/jquery.min.js') }}"></script>
 	<!-- Notification -->
     <link href="{{ asset('toastr/build/toastr.css') }}" rel="stylesheet"/>
     <script src="{{ asset('toastr/toastr.js') }}"></script>
 
-    
+    <!-- Datatable -->
     <script src="{{ url('DataTables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('DataTables/js/dataTables.bootstrap.min.js') }}"></script>
+
+    <!-- Jquery ui -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('jquery-ui/jquery-ui.css') }}">
+    <script src="{{ asset('jquery-ui/jquery-ui.js') }}"></script>
+
+    <!-- Select 2 -->
+    <link href="{{ asset('select2/dist/css/select2.min.css') }}" rel="stylesheet" />
+	<script src="{{ asset('select2/dist/js/select2.min.js') }}"></script>
+
 </head>
 <body>
 
@@ -147,7 +158,7 @@
 <!--end-Footer-part-->
 
 <script src="{{ asset('matrix-admin-package/HTML/js/excanvas.min.js') }}"></script> 
-<script src="{{ asset('matrix-admin-package/HTML/js/jquery.min.js') }}"></script> 
+<!-- <script src="{{ asset('matrix-admin-package/HTML/js/jquery.min.js') }}"></script>  -->
 <script src="{{ asset('matrix-admin-package/HTML/js/jquery.ui.custom.js') }}"></script> 
 <script src="{{ asset('matrix-admin-package/HTML/js/bootstrap.min.js') }}"></script> 
 <script src="{{ asset('matrix-admin-package/HTML/js/jquery.flot.min.js') }}"></script> 
@@ -163,11 +174,12 @@
 <script src="{{ asset('matrix-admin-package/HTML/js/matrix.form_validation.js') }}"></script> 
 <script src="{{ asset('matrix-admin-package/HTML/js/jquery.wizard.js') }}"></script> 
 <script src="{{ asset('matrix-admin-package/HTML/js/jquery.uniform.js') }}"></script> 
-<script src="{{ asset('matrix-admin-package/HTML/js/select2.min.js') }}"></script> 
+<!-- <script src="{{ asset('matrix-admin-package/HTML/js/select2.min.js') }}"></script>  -->
 <script src="{{ asset('matrix-admin-package/HTML/js/matrix.popover.js') }}"></script> 
 <!-- <script src="{{ asset('matrix-admin-package/HTML/js/jquery.dataTables.min.js') }}"></script>  -->
 <script src="{{ url('DataTables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('matrix-admin-package/HTML/js/matrix.tables.js') }}"></script> 
+
 
 <script type="text/javascript">
   	// This function is called from the pop-up menus to transfer to

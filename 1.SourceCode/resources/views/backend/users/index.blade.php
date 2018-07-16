@@ -37,7 +37,7 @@
 	<input type="hidden" name="_method" value="POST">
 
 	<div class="panel panel-primary">
-      	<div class="panel-heading">Panel with panel-primary class</div>
+      	<div class="panel-heading">Thông tin tài khoản</div>
       	<div class="panel-body">
       		<div class="col-sm-2">
 				<div class="overlayImage">
@@ -55,6 +55,41 @@
 				<div class="form-group">
 					<label>Tên</label>
 					<input type="text" class="form-control" value="{{$user->name}}" name="nameUser">
+				</div>
+				<div class="form-group">
+					<label>Giới tính: </label>
+					<label class="radio-inline"><input type="radio" name="genderUser" value="1">Nam</label>
+					<label class="radio-inline"><input type="radio" name="genderUser" value="2">Nữ</label>
+					<label class="radio-inline"><input type="radio" name="genderUser" value="3">Khác</label>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+					    <input type="number" id="phoneUser" class="form-control" placeholder="Điện thoại">
+					    <div class="input-group-btn">
+					      	<button class="btn btn-info" type="button" onclick="addPhoneUser()">
+					        	<i class="icon-plus"></i>
+					      	</button>
+					    </div>
+					</div>
+					<div id="appendPhoneUser"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+					    <input type="text" placeholder="Ngày sinh" id="birthdayUser" name="birthdayUser" class="form-control">
+					    <div class="input-group-btn">
+					      	<button class="btn btn-info" type="button">
+					        	<i class="icon-calendar"></i>
+					      	</button>
+					    </div>
+					</div>
+				</div>	
+				<div class="form-group">
+				  	<select class="form-control" id="cityUser" name="cityUser">
+					    <option>Thành phố</option>
+					    <option>2</option>
+					    <option>3</option>
+					    <option>4</option>
+				  	</select>
 				</div>
 			</div>
 			<div class="span5">
@@ -102,6 +137,7 @@
 	            contentType: false,
 	            processData: false,
 	            success:function(data){
+	            	console.log(data);
 	                toastr.success('Lưu thành công')
 	            },
 	            error: function(data){
@@ -110,7 +146,44 @@
 	        });
 	    }));
 
+	    //Date picker and select2
+	    $("#birthdayUser").datepicker();
+	    $("#cityUser").select2();
+
 	});	
+
+	//Add phone
+	function addPhoneUser(){
+		var phone = $("#phoneUser").val();
+		var str = phone;
+		var addWhere = document.getElementsByClassName('addWhere'+str);
+    	var html = 
+    			"<div class='input-group phone-group addWhere"+str+"'>"
+    			+"	<input readonly type='number' name='phoneUser[]content' class='form-control input-phone-content' value='"+phone+"'>"
+    			+"	<div class='input-group-btn'>"
+    			+"		<button class='btn btn-default button-remove' type='button' onclick='deletePhoneUser()'>"
+    			+"			<i class='icon-remove'></i>"
+    			+"		</button>"
+    			+"	</div>"
+    			+"</div>";
+    	if(phone.length > 0 && addWhere.length == 0){
+    		$("#appendPhoneUser").append(html);
+    		$("#phoneUser").val('');
+    	}
+    	
+
+    	$(".phone-group").each(function(index){
+    		$(this).find("input.input-phone-content").attr("name", "phoneUser["+index+"]content");
+    	});
+	}
+
+	//Delete phone
+	function deletePhoneUser(){
+		$("#appendPhoneUser").on("click", ".button-remove", function(){
+			var index = $(this).closest("div.phone-group").index();
+			$(this).closest("div.phone-group").remove();
+		});
+	}
 
 	// Valid Image
 	function validImage(file_id)

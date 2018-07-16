@@ -25,6 +25,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
     	$input = $request->all();
+        echo "<pre>";print_r($input);exit;
         if($this->userService->update($input)){
             return "success";
         }else{
