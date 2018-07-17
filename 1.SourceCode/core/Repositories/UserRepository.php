@@ -13,7 +13,8 @@ class UserRepository implements UserRepositoryContract
     public function index()
     {
         $data = DB::table('users')
-                    ->select('users.*')
+                    ->select('users.*', 'users_permission.name_permission')
+                    ->leftjoin('users_permission', 'users_permission.user_permission_id', '=', 'users.user_permission_id')
                     ->where('users.user_id', '=', Auth::user()->user_id)
                     ->first();
         return $data;
@@ -21,7 +22,6 @@ class UserRepository implements UserRepositoryContract
 
     public function update($input)
     {
-        // echo "<pre>";print_r($input);exit;
     	DB::beginTransaction();
     	try{
     		//Update users
@@ -120,6 +120,12 @@ class UserRepository implements UserRepositoryContract
     public function getCity()
     {
         $data = DB::table('city')->select('*')->whereNull('deleted_at')->get();
+        return $data;
+    }
+
+    public function getData()
+    {
+        $data = DB::table('user_profile')->select('*')->where('user_id', '=', Auth::user()->user_id)->first();
         return $data;
     }
 

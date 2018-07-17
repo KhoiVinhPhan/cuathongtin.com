@@ -33,4 +33,9 @@ class UserService implements UserServiceContract
         return $this->userRepository->getCity();
     }
 
+    public function getData()
+    {
+        return $this->userRepository->getData();
+    }
+
 }

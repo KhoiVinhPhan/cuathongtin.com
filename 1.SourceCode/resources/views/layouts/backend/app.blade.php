@@ -34,6 +34,8 @@
     <link href="{{ asset('select2/dist/css/select2.min.css') }}" rel="stylesheet" />
 	<script src="{{ asset('select2/dist/js/select2.min.js') }}"></script>
 
+	<script src="{{ asset('js/public.js') }}"></script>
+
 </head>
 <body>
 
@@ -45,13 +47,16 @@
 
 
 <!--top-Header-menu-->
+@if(Auth::user()->user_permission_id == 1)
 <div id="user-nav">
   	<ul class="nav">
 	    <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome {{ Auth::user()->email }}</span><b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
-		        <li><a href="{{ route('indexUser') }}"><i class="icon-user"></i> My Profile</a></li>
+		        <li><a href="{{ route('indexUser') }}"><i class="icon-user"></i> Tài khoản</a></li>
 		        <li class="divider"></li>
-		        <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
+		        <li><a href="{{ route('indexFile') }}"><i class="icon-file"></i> File lưu trữ</a></li>
+		        <li class="divider"></li>
+		        <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
 		        <li class="divider"></li>
 		        <li>
 		        	@guest
@@ -74,10 +79,50 @@
 		        <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
 	      	</ul>
 	    </li>
-	    <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-	    <li class=""><a title="" href="{{ route('indexFile') }}"><i class="icon icon-cog"></i> <span class="text">File</span></a></li>
+	    <li class="dropdown" id="menu-user"><a href="#" data-toggle="dropdown" data-target="#menu-user" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Quản lý user</span><b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+		        <li><a title="Danh sách" href="{{ route('showUser') }}"><i class="icon-th-list"></i> Danh sách</a></li>
+		        <li class="divider"></li>
+		        <li><a title="Danh sách đã xóa" href="#"><i class="icon-trash"></i> Thùng rác</a></li>
+	      	</ul>
+	    </li>
   	</ul>
 </div>
+@else
+<div id="user-nav">
+  	<ul class="nav">
+	    <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome {{ Auth::user()->email }}</span><b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+		        <li><a href="{{ route('indexUser') }}"><i class="icon-user"></i> Tài khoản</a></li>
+		        <li class="divider"></li>
+		        <li><a href="{{ route('indexFile') }}"><i class="icon-file"></i> File lưu trữ</a></li>
+		        <li class="divider"></li>
+		        <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+		        <li class="divider"></li>
+		        <li>
+		        	@guest
+
+		        	@else
+		        		<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon-key"></i>{{ __('Logout') }}</a>
+		        		<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+		        	@endguest
+		        </li>
+	      	</ul>
+	    </li>
+	    <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+		        <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
+		        <li class="divider"></li>
+		        <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
+		        <li class="divider"></li>
+		        <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
+		        <li class="divider"></li>
+		        <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
+	      	</ul>
+	    </li>
+  	</ul>
+</div>
+@endif
 <!--close-top-Header-menu-->
 <!--start-top-serch-->
 <div id="search">

@@ -39,5 +39,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
 
 //Route auth (admin-level)
 Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
-    Route::get('demo', function(){echo "trang admin";});
+    Route::get('user/show', 'UserController@show')->name('showUser');
 });

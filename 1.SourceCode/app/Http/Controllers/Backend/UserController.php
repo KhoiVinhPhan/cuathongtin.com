@@ -20,7 +20,9 @@ class UserController extends Controller
     	$user           = $this->userService->index();
         $image_user     = $this->userService->checkImage();
         $cities         = $this->userService->getCity();
-    	return view('backend.users.index', compact('user', 'image_user', 'cities'));
+        $data           = $this->userService->getData();
+        // echo "<pre>";print_r($data);exit;
+    	return view('backend.users.index', compact('user', 'image_user', 'cities', 'data'));
     }
 
     public function update(Request $request)
@@ -31,7 +33,10 @@ class UserController extends Controller
         }else{
             return "error";
         }
-        
-    	
+    }
+
+    public function show()
+    {
+        return view('backend.users.show');
     }
 }

@@ -45,8 +45,9 @@
 					<div class="overlay">Thay đổi</div>
 				</div>
 				<input name="file_avatar_user" type="file" id="file_avatar_user" />
-				<p>Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
-				<p>Phân quyền:</p>
+				<p><span class="icon-calendar"></span> Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
+				<p><span class="icon-user"></span> Phân quyền:<span style="color: red">{{$user->name_permission}}</span></p>
+				<p><span class="icon-file"></span> Bài viết:</p>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
@@ -59,9 +60,9 @@
 				</div>
 				<div class="form-group">
 					<label>Giới tính: </label>
-					<label class="radio-inline"><input type="radio" name="genderUser" value="1">Nam</label>
-					<label class="radio-inline"><input type="radio" name="genderUser" value="2">Nữ</label>
-					<label class="radio-inline"><input type="radio" name="genderUser" value="3">Khác</label>
+					<label class="radio-inline"><input <?php if(!empty($data) && $data->gender == 1) echo "checked"; ?> type="radio" name="genderUser" value="1">Nam</label>
+					<label class="radio-inline"><input <?php if(!empty($data) && $data->gender == 2) echo "checked"; ?> type="radio" name="genderUser" value="2">Nữ</label>
+					<label class="radio-inline"><input <?php if(!empty($data) && $data->gender == 3) echo "checked"; ?> type="radio" name="genderUser" value="3">Khác</label>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
@@ -72,11 +73,25 @@
 					      	</button>
 					    </div>
 					</div>
-					<div id="appendPhoneUser"></div>
+					<div id="appendPhoneUser">
+						@if(!empty($data->phone))
+							@php( $array_phone = explode(',', $data->phone) )
+							@foreach($array_phone as $item)
+								<div class="input-group phone-group addWhere">
+				    				<input readonly type="number" name="phoneUser[]content" class="form-control input-phone-content" value="{{$item}}">
+				    				<div class="input-group-btn">
+				    					<button class="btn btn-default button-remove" type="button" onclick="deletePhoneUser()">
+				    						<i class="icon-remove"></i>
+				    					</button>
+				    				</div>
+				    			</div>
+							@endforeach
+						@endif
+					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
-					    <input type="text" placeholder="Ngày sinh" id="birthdayUser" name="birthdayUser" class="form-control">
+					    <input type="text" placeholder="Ngày sinh" id="birthdayUser" name="birthdayUser" class="form-control" value="@if(!empty($data)) {{$data->birthday}} @endif">
 					    <div class="input-group-btn">
 					      	<button class="btn btn-info" type="button">
 					        	<i class="icon-calendar"></i>
@@ -88,26 +103,26 @@
 				  	<select class="form-control" id="cityUser" name="cityUser">
 					    <option value="-1">Thành phố</option>
 					    @foreach($cities as $item)
-					    	<option value="{{$item->city_id}}">{{$item->name}}</option>
+					    	<option value="{{$item->city_id}}" @if(!empty($data) && $data->city == $item->city_id) selected  @endif>{{$item->name}}</option>
 					    @endforeach
 				  	</select>
 				</div>
 				<div class="form-group">
 			        <div class="input-group">
 					    <span class="input-group-addon">Địa chỉ</span>
-					    <input type="text" class="form-control" name="addressUser">
+					    <input type="text" class="form-control" name="addressUser" value="@if(!empty($data)) {{$data->address}} @endif">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
 			        <label>Trích dẫn</label>
-			        <textarea name="informatinoUser" class="form-control"></textarea>
+			        <textarea name="informatinoUser" class="form-control">@if(!empty($data)) {{$data->information}} @endif</textarea>
 				</div>
 				<div class="form-group">
 			        <div class="input-group">
 					    <span class="input-group-addon">https://www.facebook.com/</span>
-					    <input type="text" class="form-control" name="facebookUser">
+					    <input type="text" class="form-control" name="facebookUser" value="@if(!empty($data)) {{$data->facebook}} @endif">
 					</div>
 				</div>
 			</div>
@@ -145,6 +160,8 @@
         $('#formUserUpdate').on('submit',(function(e) {
 	        e.preventDefault();
 	        var formData = new FormData(this);
+	        var $form = $(this);
+	        if(! $form.valid()) return false;
 	        $.ajax({
 	            type:'POST',
 	           	url: '/manager/user/update',
@@ -154,10 +171,14 @@
 	            processData: false,
 	            success:function(data){
 	            	console.log(data);
-	                toastr.success('Lưu thành công')
+	            	if(data == 'success')
+	                	toastr.success('Lưu thành công')
+	                else
+	                	toastr.error('Lưu không thành công')
 	            },
 	            error: function(data){
-	                toastr.error('Lỗi không lưu được')
+	            	console.log(data);
+	                toastr.error('Lỗi hệ thống khi lưu')
 	            }
 	        });
 	    }));
@@ -166,6 +187,15 @@
 	    $("#birthdayUser").datepicker();
 	    $("#cityUser").select2();
 
+	    //Validate form 
+	    $("#formUserUpdate").validate({
+	    	rules: {
+	    		nameUser: "required",
+	    	},
+	    	messages: {
+	    		nameUser: "<span style='color: red'>Tên không được để trống</span>",
+	    	}
+	    });
 	});	
 
 	//Add phone
@@ -187,7 +217,6 @@
     		$("#phoneUser").val('');
     	}
     	
-
     	$(".phone-group").each(function(index){
     		$(this).find("input.input-phone-content").attr("name", "phoneUser["+index+"]content");
     	});
