@@ -37,6 +37,19 @@ class UserController extends Controller
 
     public function show()
     {
-        return view('backend.users.show');
+        $users = $this->userService->show();
+        $permissions = $this->userService->getPermission();
+        // echo "<pre>";print_r($permissions);exit;
+        return view('backend.users.show', compact('users', 'permissions'));
+    }
+
+    public function changePermission(Request $request){
+        $input = $request->all();
+        if($this->userService->changePermission($input)) {
+            return "success";
+        }else {
+            return "error";
+        }
+        
     }
 }

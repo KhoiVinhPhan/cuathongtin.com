@@ -129,4 +129,43 @@ class UserRepository implements UserRepositoryContract
         return $data;
     }
 
+    public function show()
+    {
+        $data = DB::table('users')
+                    ->select(
+                        'users.*'
+                        , 'user_profile.phone'
+                        , 'user_profile.address'
+                        , 'user_profile.birthday'
+                        , 'user_profile.gender'
+                        , 'user_profile.facebook'
+                        , 'user_profile.information'
+                        , 'user_photo.filename'
+                        , 'users_permission.name_permission'
+                        , 'users_permission.user_permission_id'
+                    )
+                    ->leftjoin('user_profile', 'user_profile.user_id', '=', 'users.user_id')
+                    ->leftjoin('user_photo', 'user_photo.user_id', '=', 'users.user_id')
+                    ->leftjoin('users_permission', 'users_permission.user_permission_id', '=', 'users.user_permission_id')
+                    ->whereNull('users.deleted_at')
+                    ->get();
+        return $data;
+    }
+
+    public function getPermission()
+    {
+        $data = DB::table('users_permission')->select('*')->whereNull('deleted_at')->get();
+        return $data;
+    }
+
+    public function changePermission($input)
+    {
+        DB::table('users')
+            ->where('user_id', $input['data']['user_id'])
+            ->update([
+                'user_permission_id' => $input['data']['permission'],
+            ]);
+        return true;
+    }
+
 }

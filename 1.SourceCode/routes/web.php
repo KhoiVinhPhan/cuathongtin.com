@@ -34,10 +34,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     //USER
     Route::get('user', 'UserController@index')->name('indexUser');
     Route::post('user/update', 'UserController@update')->name('updateUser');
+    Route::post('user/change-permission','UserController@changePermission')->name('changePermission');
 });
 
 
 //Route auth (admin-level)
 Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
     Route::get('user/show', 'UserController@show')->name('showUser');
+
 });
