@@ -53,4 +53,9 @@ class UserService implements UserServiceContract
         return $this->userRepository->changePermission($input);
     }
 
+    public function store($input)
+    {
+        return $this->userRepository->store($input);
+    }
+
 }

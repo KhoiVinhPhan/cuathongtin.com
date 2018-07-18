@@ -168,4 +168,16 @@ class UserRepository implements UserRepositoryContract
         return true;
     }
 
+    public function store($input)
+    {
+        $data = array(
+            'name'                  => $input['name'],
+            'email'                 => $input['email'],
+            'password'              => bcrypt($input['password']),
+            'user_permission_id'    => $input['permission'],
+        );
+        User::create($data);
+        return true;
+    }
+
 }

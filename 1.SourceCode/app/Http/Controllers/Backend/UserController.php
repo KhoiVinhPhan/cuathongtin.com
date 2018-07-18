@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Core\Services\UserServiceContract;
+use App\Http\Requests\CreateUserRequest;
 
 class UserController extends Controller
 {
@@ -49,6 +50,22 @@ class UserController extends Controller
             return "success";
         }else {
             return "error";
+        }
+        
+    }
+
+    public function create()
+    {
+        $permissions = $this->userService->getPermission();
+        return view('backend.users.create', compact('permissions'));
+    }
+
+    public function store(CreateUserRequest $request){
+        $input = $request->all();
+        if($this->userService->store($input)) {
+            return redirect('manager/user/show');
+        }else {
+            return redirect('manager/user/create');
         }
         
     }

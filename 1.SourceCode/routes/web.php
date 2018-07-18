@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route auth (manager)
+//Route auth (user-level)
 Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
     Route::get('/', 'HomeController@index');
     //FILE
@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
 
 //Route auth (admin-level)
 Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
+    //USER
     Route::get('user/show', 'UserController@show')->name('showUser');
-
+    Route::get('user/create', 'UserController@create')->name('createUser');
+    Route::post('user/store', 'UserController@store')->name('storeUser');
 });

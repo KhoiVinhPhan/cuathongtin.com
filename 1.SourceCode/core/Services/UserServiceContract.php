@@ -12,4 +12,5 @@ interface UserServiceContract
     public function show();
     public function getPermission();
     public function changePermission($input);
+    public function store($input);
 }
