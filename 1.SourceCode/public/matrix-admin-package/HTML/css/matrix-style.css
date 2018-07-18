@@ -61,6 +61,7 @@ hr{ border-top-color:#dadada;}
 	position: relative;
 	top: 26px;
 	width: 191px;
+	margin-top: 5px;
 }
 #header h1 a {
 	display: block;
