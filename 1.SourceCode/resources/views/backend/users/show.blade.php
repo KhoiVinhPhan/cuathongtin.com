@@ -1,5 +1,6 @@
 @extends('layouts.backend.app')
 @section('content')
+</style>
 <div class="panel panel-primary">
   	<div class="panel-heading">Danh sách user <a href="{{ route('createUser') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm">Thêm mới</button></a></div>
   	<div class="panel-body">
@@ -18,7 +19,7 @@
 		    		@php($i++)
 		    			<tr>
 				        	<td>{{$i}}</td>
-				        	<td onclick="show(<?php echo $item->user_id; ?>)" id="<?php echo "hide".$item->user_id ?>">{{$item->name}}<span class="pull-right icon-fullscreen"></span></td>
+				        	<td style="font-weight: bold; color: #27A9E3" onclick="show(<?php echo $item->user_id; ?>)" id="<?php echo "hide".$item->user_id ?>">{{$item->name}}<span class="pull-right icon-fullscreen"></span></td>
 				        	<td>{{$item->email}}</td>
 				      	</tr>
 				      	<tr style="display: none" id="<?php echo "show".$item->user_id ?>">
@@ -54,7 +55,7 @@
 				        			<p><span class=" icon-file"></span> Thông tin: {{$item->information}}</p>
 				        		</div>
 				        		<div class="col-sm-2">
-				        			<a href="{{ route('deleteUser', ['user_id'=>$item->user_id]) }}"><button type="button" class="btn btn-danger btn-sm"><span class="icon-trash"></span> Xóa</button></a>
+				        			<a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{ route('deleteUser', ['user_id'=>$item->user_id]) }}"><button type="button" class="btn btn-danger btn-sm"><span class="icon-trash"></span> Xóa</button></a>
 				        		</div>
 				        	</td>
 				      	</tr>
@@ -116,9 +117,9 @@
 			success: function(result){
 				console.log(result);
 				if(result == 'success')
-					toastr.success('Lưu thành công')
+					toastr.success('Thay đổi phân quyền thành công')
 				else
-					toastr.error('Lưu không thành công')
+					toastr.error('Thay đổi phân quyền không thành công')
 			},
 			error: function(result){
 				console.log(result);
@@ -158,7 +159,6 @@
 				toastr.error('Lỗi hệ thống khi lưu')
 			}
 		});
-		
 	}
 </script>	
 @endsection

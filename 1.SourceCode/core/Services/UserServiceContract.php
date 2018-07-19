@@ -15,4 +15,6 @@ interface UserServiceContract
     public function store($input);
     public function changePassword($input);
     public function delete($user_id);
+    public function getUserTrash();
+    public function restoreUser($user_id);
 }

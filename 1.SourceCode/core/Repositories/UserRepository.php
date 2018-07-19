@@ -196,4 +196,16 @@ class UserRepository implements UserRepositoryContract
         return true;
     }
 
+    public function getUserTrash()
+    {
+        $data = DB::table('users')->select('*')->whereNotNull('deleted_at')->get();
+        return $data;
+    }
+
+    public function restoreUser($user_id)
+    {
+        User::withTrashed()->find($user_id)->restore();
+        return true;
+    }
+
 }
