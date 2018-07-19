@@ -58,4 +58,24 @@ class UserService implements UserServiceContract
         return $this->userRepository->store($input);
     }
 
+    public function changePassword($input)
+    {
+        return $this->userRepository->changePassword($input);
+    }
+
+    public function delete($user_id)
+    {
+        return $this->userRepository->delete($user_id);
+    }
+
+    public function getUserTrash()
+    {
+        return $this->userRepository->getUserTrash();
+    }
+
+    public function restoreUser($user_id)
+    {
+        return $this->userRepository->restoreUser($user_id);
+    }
+
 }

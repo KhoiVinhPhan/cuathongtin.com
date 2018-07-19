@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/', 'Frontend\HomeController@index');
 
 Auth::routes();
@@ -23,7 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Route auth (user-level)
 Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backend'], function () {
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'HomeController@index')->name('homeBackend');
     //FILE
     Route::get('file', 'FileController@index')->name('indexFile');
     Route::get('file/{id}/edit', 'FileController@edit')->name('editFile');
@@ -35,6 +31,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::get('user', 'UserController@index')->name('indexUser');
     Route::post('user/update', 'UserController@update')->name('updateUser');
     Route::post('user/change-permission','UserController@changePermission')->name('changePermission');
+    Route::post('user/change-password','UserController@changePassword')->name('changePassword');
 });
 
 
@@ -44,5 +41,4 @@ Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>
     Route::get('user/show', 'UserController@show')->name('showUser');
     Route::get('user/create', 'UserController@create')->name('createUser');
     Route::post('user/store', 'UserController@store')->name('storeUser');
-    
 });

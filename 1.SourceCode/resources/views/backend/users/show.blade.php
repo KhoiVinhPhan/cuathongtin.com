@@ -1,5 +1,6 @@
 @extends('layouts.backend.app')
 @section('content')
+</style>
 <div class="panel panel-primary">
   	<div class="panel-heading">Danh sách user <a href="{{ route('createUser') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm">Thêm mới</button></a></div>
   	<div class="panel-body">
@@ -18,7 +19,7 @@
 		    		@php($i++)
 		    			<tr>
 				        	<td>{{$i}}</td>
-				        	<td onclick="show(<?php echo $item->user_id; ?>)" id="<?php echo "hide".$item->user_id ?>">{{$item->name}}<span class="pull-right icon-fullscreen"></span></td>
+				        	<td style="font-weight: bold; color: #27A9E3" onclick="show(<?php echo $item->user_id; ?>)" id="<?php echo "hide".$item->user_id ?>">{{$item->name}}<span class="pull-right icon-fullscreen"></span></td>
 				        	<td>{{$item->email}}</td>
 				      	</tr>
 				      	<tr style="display: none" id="<?php echo "show".$item->user_id ?>">
@@ -46,6 +47,7 @@
 					        		<p><span class="icon-home"></span> Địa chỉ: {{$item->address}}</p>
 					        		<p><span class="icon-calendar"></span> Ngày sinh: {{$item->birthday}}</p>
 					        		<p><span class="icon-calendar"></span> Ngày tạo: {{ date('d-m-yy', strtotime($item->created_at)) }}</p>
+					        		<p onclick="showChangePassword(<?php echo $item->user_id; ?>)" id="<?php echo "hidePassword".$item->user_id; ?>"><span class="icon-lock"></span><a href="javascript:;" style="color: red"> Thay đổi mật khẩu</a></p>
 				        		</div>
 				        		<div class="col-sm-4">
 				        			<p><span class="icon-phone"></span> Điện thoại: {{$item->phone}}</p>
@@ -53,10 +55,25 @@
 				        			<p><span class=" icon-file"></span> Thông tin: {{$item->information}}</p>
 				        		</div>
 				        		<div class="col-sm-2">
-				        			<button type="button" class="btn btn-danger btn-sm"><span class="icon-trash"></span> Xóa</button>
-				        			<button type="button" class="btn btn-info btn-sm"><span class="icon-trash"></span> Chỉnh</button>
+				        			<a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{ route('deleteUser', ['user_id'=>$item->user_id]) }}"><button type="button" class="btn btn-danger btn-sm"><span class="icon-trash"></span> Xóa</button></a>
 				        		</div>
 				        	</td>
+				      	</tr>
+				      	<tr style="display: none" id="<?php echo "showPassword".$item->user_id; ?>">
+				      		<td colspan="3">
+				      			<div class="form-inline">
+								  	<div class="form-group">
+								    	<label>Email:</label>
+								    	<input readonly type="email" class="form-control" value="{{$item->email}}">
+								  	</div>
+								  	<div class="form-group">
+								    	<label for="pwd">Nhập mật khẩu:</label>
+								    	<input type="password" class="form-control" id="<?php echo "changePassword".$item->user_id ?>">
+								    	<span class="<?php echo "error_password".$item->user_id; ?>"></span>
+								  	</div>
+								  <button type="button" class="btn btn-success" onclick="btnChangePassword(<?php echo $item->user_id; ?>)">Thay đổi</button>
+								</div>
+				      		</td>
 				      	</tr>
 		    		@endforeach
 		    	@endif
@@ -66,14 +83,25 @@
 </div>
 <script>
 	//Show hide user information
-	function show(id){
-		$("#show"+id).attr('style', 'display: show');
-		$("#hide"+id).attr('onclick', 'hide('+id+')');
+	function show(user_id){
+		$("#show"+user_id).attr('style', 'display: show');
+		$("#hide"+user_id).attr('onclick', 'hide('+user_id+')');
 	};
-	function hide(id){
-		$("#show"+id).attr('style', 'display: none');
-		$("#hide"+id).attr('onclick', 'show('+id+')');
+	function hide(user_id){
+		$("#show"+user_id).attr('style', 'display: none');
+		$("#hide"+user_id).attr('onclick', 'show('+user_id+')');
+		$("#showPassword"+user_id).attr('style', 'display: none');
 	};
+
+	//Show hide change password
+	function showChangePassword(user_id){
+		$("#showPassword"+user_id).attr('style', 'display: show');
+		$("#hidePassword"+user_id).attr('onclick', 'hideChangePassword('+user_id+')');
+	}
+	function hideChangePassword(user_id){
+		$("#showPassword"+user_id).attr('style', 'display: none');
+		$("#hidePassword"+user_id).attr('onclick', 'showChangePassword('+user_id+')');
+	}
 
 	//Change permission
 	function changePermission(user_id){
@@ -89,15 +117,48 @@
 			success: function(result){
 				console.log(result);
 				if(result == 'success')
-					toastr.success('Lưu thành công')
+					toastr.success('Thay đổi phân quyền thành công')
 				else
-					toastr.error('Lưu không thành công')
+					toastr.error('Thay đổi phân quyền không thành công')
 			},
 			error: function(result){
 				console.log(result);
 				toastr.error('Lỗi hệ thống khi lưu')
 			}
 		})
+	}
+
+	//Change password
+	function btnChangePassword(user_id){
+		var password = $("#changePassword"+user_id).val();
+		$(".error_password"+user_id).html('');
+		if(password.length < 6){
+			$(".error_password"+user_id).append('<span style="color: red">Không dưới 6 ký tự</span>');
+			return false;
+		}
+		data = {
+			user_id 	: user_id,
+			password 	: password,
+		};
+		$.ajax({
+			type: "POST",
+			url: "/manager/user/change-password",
+			data:  {'data': data, '_token': '{{ csrf_token() }}'},
+			success: function(result){
+				console.log(result);
+				$("#showPassword"+user_id).attr('style', 'display: none');
+				$("#hidePassword"+user_id).attr('onclick', 'showChangePassword('+user_id+')');
+				$("#changePassword"+user_id).val('');
+				if(result == 'success')
+					toastr.success('Thay đổi mật khẩu thành công')
+				else
+					toastr.error('Thay đổi không thành công')
+			},
+			error: function(result){
+				console.log(result);
+				toastr.error('Lỗi hệ thống khi lưu')
+			}
+		});
 	}
 </script>	
 @endsection

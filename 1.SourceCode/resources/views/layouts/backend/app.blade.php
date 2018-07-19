@@ -56,8 +56,6 @@
 		        <li class="divider"></li>
 		        <li><a href="{{ route('indexFile') }}"><i class="icon-file"></i> File lưu trữ</a></li>
 		        <li class="divider"></li>
-		        <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-		        <li class="divider"></li>
 		        <li>
 		        	@guest
 
@@ -68,11 +66,11 @@
 		        </li>
 	      	</ul>
 	    </li>
-	    <li class="dropdown" id="menu-user"><a href="#" data-toggle="dropdown" data-target="#menu-user" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Quản lý user</span><b class="caret"></b></a>
+	    <li class="dropdown" id="menu-user"><a href="#" data-toggle="dropdown" data-target="#menu-user" class="dropdown-toggle"><i class="icon icon-group"></i> <span class="text">Quản lý user</span><b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
 		        <li><a title="Danh sách" href="{{ route('showUser') }}"><i class="icon-th-list"></i> Danh sách</a></li>
 		        <li class="divider"></li>
-		        <li><a title="Danh sách đã xóa" href="#"><i class="icon-trash"></i> Thùng rác</a></li>
+		        <li><a title="Danh sách đã xóa" href="{{ route('trashUser') }}"><i class="icon-trash"></i> Thùng rác</a></li>
 	      	</ul>
 	    </li>
   	</ul>
@@ -85,8 +83,6 @@
 		        <li><a href="{{ route('indexUser') }}"><i class="icon-user"></i> Tài khoản</a></li>
 		        <li class="divider"></li>
 		        <li><a href="{{ route('indexFile') }}"><i class="icon-file"></i> File lưu trữ</a></li>
-		        <li class="divider"></li>
-		        <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
 		        <li class="divider"></li>
 		        <li>
 		        	@guest
@@ -111,50 +107,13 @@
 <!--sidebar-menu-->
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   	<ul>
-	    <li class="active"><a href="{{ asset('matrix-admin-package/HTML/index.html') }}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-	    <li> <a href="{{ asset('matrix-admin-package/HTML/charts.html') }}"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
-	    <li> <a href="{{ asset('matrix-admin-package/HTML/widgets.html') }}"><i class="icon icon-inbox"></i> <span>Widgets</span></a> </li>
-	    <li><a href="{{ asset('matrix-admin-package/HTML/tables.html') }}"><i class="icon icon-th"></i> <span>Tables</span></a></li>
-	    <li><a href="{{ asset('matrix-admin-package/HTML/grid.html') }}"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
-	    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>
+	    <li class="active"><a href="{{ route('homeBackend') }}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+	    <!-- <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>
 	      	<ul>
 		        <li><a href="{{ asset('matrix-admin-package/HTML/form-common.html') }}">Basic Form</a></li>
 		        <li><a href="{{ asset('matrix-admin-package/HTML/form-validation.html') }}">Form with Validation</a></li>
 		        <li><a href="{{ asset('matrix-admin-package/HTML/form-wizard.html') }}">Form with Wizard</a></li>
 	      	</ul>
-	    </li>
-	    <li><a href="{{ asset('matrix-admin-package/HTML/buttons.html') }}"><i class="icon icon-tint"></i> <span>Buttons &amp; icons</span></a></li>
-	    <li><a href="{{ asset('matrix-admin-package/HTML/interface.html') }}"><i class="icon icon-pencil"></i> <span>Eelements</span></a></li>
-	    <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Addons</span> <span class="label label-important">5</span></a>
-	      	<ul>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/index2.html') }}">Dashboard2</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/gallery.html') }}">Gallery</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/calendar.html') }}">Calendar</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/invoice.html') }}">Invoice</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/chat.html') }}">Chat option</a></li>
-	      	</ul>
-	    </li>
-	    <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>Error</span> <span class="label label-important">4</span></a>
-	      	<ul>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/error403.html') }}">Error 403</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/error404.html') }}">Error 404</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/error405.html') }}">Error 405</a></li>
-		        <li><a href="{{ asset('matrix-admin-package/HTML/error500.html') }}">Error 500</a></li>
-	      	</ul>
-	    </li>
-	    <!-- <li class="content"> <span>Monthly Bandwidth Transfer</span>
-	      	<div class="progress progress-mini progress-danger active progress-striped">
-	        	<div style="width: 77%;" class="bar"></div>
-	      	</div>
-	      	<span class="percent">77%</span>
-	      	<div class="stat">21419.94 / 14000 MB</div>
-	    </li>
-	    <li class="content"> <span>Disk Space Usage</span>
-	      	<div class="progress progress-mini active progress-striped">
-	        	<div style="width: 87%;" class="bar"></div>
-	      	</div>
-	      	<span class="percent">87%</span>
-	      	<div class="stat">604.44 / 4000 MB</div>
 	    </li> -->
   	</ul>
 </div>
@@ -168,6 +127,16 @@
     	<br>
   	</div>
 <!--End-breadcrumbs-->
+	@if (Session::has('success'))
+		<div id="successMessage" class="container-fluid">
+			<div class="alert alert-success">{{ Session::get('success') }}</div>
+		</div>
+	@endif
+	@if (Session::has('error'))
+		<div id="successMessage" class="container-fluid">
+			<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		</div>
+	@endif
   	<div class="container-fluid">
   		@yield('content')
   	</div>
@@ -176,7 +145,7 @@
 
 <!--Footer-part-->
 <div class="row-fluid">
-  	<div id="footer" class="span12"> @khoivinhphan </div>
+  	<div id="footer" class="span12"> Dev: khoivinhphan </div>
 </div>
 <!--end-Footer-part-->
 
@@ -205,6 +174,9 @@
 
 
 <script type="text/javascript">
+	setTimeout(function(){ 
+		$("#successMessage").remove();
+	}, 3000);
   	// This function is called from the pop-up menus to transfer to
   	// a different page. Ignore if the value returned is a null string:
   	function goPage (newURL) {

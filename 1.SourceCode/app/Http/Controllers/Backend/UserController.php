@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Core\Services\UserServiceContract;
 use App\Http\Requests\CreateUserRequest;
+use Session;
 
 class UserController extends Controller
 {
@@ -63,10 +64,50 @@ class UserController extends Controller
     public function store(CreateUserRequest $request){
         $input = $request->all();
         if($this->userService->store($input)) {
+            Session::flash('success', 'Tạo user thành công');
             return redirect('manager/user/show');
         }else {
+            Session::flash('error', 'Tạo user không thành công');
             return redirect('manager/user/create');
         }
         
+    }
+
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        if($this->userService->changePassword($input)) {
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+
+    public function delete($user_id)
+    {
+        if($this->userService->delete($user_id)) {
+            Session::flash('success', 'Xóa user thành công');
+            return redirect('manager/user/show');
+        }else {
+            Session::flash('error', 'Xóa user không thành công');
+            return redirect('manager/user/show');
+        }
+    }
+
+    public function trash()
+    {
+        $userTrash = $this->userService->getUserTrash();
+        return view('backend.users.trash', compact('userTrash'));
+    }
+
+    public function restore($user_id)
+    {
+        if($this->userService->restoreUser($user_id)) {
+            Session::flash('success', 'Khôi phục user thành công');
+            return redirect('manager/user/trash');
+        }else {
+            Session::flash('error', 'Khôi phục user không thành công');
+            return redirect('manager/user/show');
+        }
     }
 }
