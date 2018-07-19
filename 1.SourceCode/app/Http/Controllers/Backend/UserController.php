@@ -69,4 +69,23 @@ class UserController extends Controller
         }
         
     }
+
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        if($this->userService->changePassword($input)) {
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+
+    public function delete($user_id)
+    {
+        if($this->userService->delete($user_id)) {
+            return redirect('manager/user/show');
+        }else {
+            return redirect('manager/user/show');
+        }
+    }
 }

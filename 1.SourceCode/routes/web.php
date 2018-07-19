@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::get('user', 'UserController@index')->name('indexUser');
     Route::post('user/update', 'UserController@update')->name('updateUser');
     Route::post('user/change-permission','UserController@changePermission')->name('changePermission');
+    Route::post('user/change-password','UserController@changePassword')->name('changePassword');
 });
 
 
@@ -44,4 +45,5 @@ Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>
     Route::get('user/show', 'UserController@show')->name('showUser');
     Route::get('user/create', 'UserController@create')->name('createUser');
     Route::post('user/store', 'UserController@store')->name('storeUser');
+    Route::get('user/{user_id}/delete', 'UserController@delete')->name('deleteUser');
 });
