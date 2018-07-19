@@ -44,4 +44,5 @@ Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>
     Route::get('user/show', 'UserController@show')->name('showUser');
     Route::get('user/create', 'UserController@create')->name('createUser');
     Route::post('user/store', 'UserController@store')->name('storeUser');
+    
 });
