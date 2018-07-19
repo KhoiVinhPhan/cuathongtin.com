@@ -12,7 +12,7 @@ class UserPermissionTableSeeder extends Seeder
     public function run()
     {
         DB::table('users_permission')->insert([
-        	['user_permission_id' => 1, 'name_permission' => 'administrator'],
+        	['user_permission_id' => 1, 'name_permission' => 'admin'],
         	['user_permission_id' => 2, 'name_permission' => 'user'],
         ]);
     }
