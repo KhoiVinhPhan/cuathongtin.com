@@ -208,4 +208,19 @@ class UserRepository implements UserRepositoryContract
         return true;
     }
 
+    public function changePasswordLogin($input)
+    {
+        $userLogin = DB::table('users')->select('*')->where('user_id', '=', Auth::user()->user_id)->first();
+        if (password_verify($input['password_old'], $userLogin->password)) {
+            DB::table('users')
+                ->where('user_id', Auth::user()->user_id)
+                ->update([
+                    'password' => bcrypt($input['password_new']),
+                ]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

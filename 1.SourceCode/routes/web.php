@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::post('user/update', 'UserController@update')->name('updateUser');
     Route::post('user/change-permission','UserController@changePermission')->name('changePermission');
     Route::post('user/change-password','UserController@changePassword')->name('changePassword');
+    Route::post('user/change-password-login','UserController@changePasswordLogin')->name('changePasswordLogin');
 });
 
 

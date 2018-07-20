@@ -1,4 +1,8 @@
 @extends('layouts.backend.app')
+@section('breadcrumb')
+	<a href="{{ route('showUser') }}" class="tip-bottom">Danh sách user</a>
+	<a href="{{ route('trashUser') }}" class="tip-bottom">Danh sách user đã xóa</a>
+@endsection
 @section('content')
 <div class="panel panel-primary">
   	<div class="panel-heading">Thùng rác</div>

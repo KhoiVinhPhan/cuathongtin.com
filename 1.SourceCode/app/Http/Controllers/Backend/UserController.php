@@ -110,4 +110,14 @@ class UserController extends Controller
             return redirect('manager/user/show');
         }
     }
+
+    public function changePasswordLogin(Request $request)
+    {
+        $input = $request->all();
+        if($this->userService->changePasswordLogin($input)) {
+            return "success";
+        }else {
+            return "error";
+        }
+    }
 }

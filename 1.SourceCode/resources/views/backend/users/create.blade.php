@@ -1,4 +1,8 @@
 @extends('layouts.backend.app')
+@section('breadcrumb')
+<a href="{{ route('showUser') }}" class="tip-bottom">Danh sách user</a>
+<a href="{{ route('createUser') }}" class="tip-bottom">Tạo user</a>
+@endsection
 @section('content')
 <form id="formCreateUser" method="POST" accept-charset="utf-8" action="{{ route('storeUser') }}">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">

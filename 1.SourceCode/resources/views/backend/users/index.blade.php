@@ -47,7 +47,7 @@
 				<input name="file_avatar_user" type="file" id="file_avatar_user" />
 				<p><span class="icon-calendar"></span> Ngày tạo: {{ date('d-m-Y', strtotime($user->created_at)) }}</p>
 				<p><span class="icon-user"></span> Phân quyền:<span style="color: red">{{$user->name_permission}}</span></p>
-				<p><span class="icon-file"></span> Bài viết:</p>
+				<p data-toggle="modal" data-target="#modalChangePassword"><span class="icon-lock"><a href="javascript:;"> Thay đổi mật khẩu</a></span></p>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
@@ -132,6 +132,43 @@
       	</div>
     </div>
 </form>
+
+<!-- Modal - change password - start -->
+<form action="{{ route('changePasswordLogin') }}" method="POST" id="formChangePassword" enctype="multipart/form-data">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
+	<input type="hidden" name="_method" value="POST">
+	<div id="modalChangePassword" class="modal fade" role="dialog">
+	  	<div class="modal-dialog">
+	    	<div class="modal-content">
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+		        	<h4 class="modal-title"><span class="icon-key"></span>Thay đổi mật khẩu</h4>
+		      	</div>
+		      	<div class="modal-body">
+		        	<div class="form-group">
+					  	<label>Mật khẩu cũ:</label>
+					  	<input onkeyup="removeErrorPassword()" type="password" class="form-control" name="password_old" id="password_old">
+					  	<span class="error_password"></span>
+					</div>
+					<div class="form-group">
+					  	<label>Mật khẩu mới:</label>
+					  	<input type="password" class="form-control" name="password_new" id="password_new">
+					</div>
+					<div class="form-group">
+					  	<label>Nhập lại mật khẩu mới:</label>
+					  	<input type="password" class="form-control" name="password_new_re" id="password_new_re">
+					</div>
+		      	</div>
+		      	<div class="modal-footer">
+		      		<button id="btnChanePassword" type="button" class="btn btn-success btn-sm">Thay đổi</button>
+		        	<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Hủy</button>
+		      	</div>
+	    	</div>
+	  	</div>
+	</div>
+</form>
+<!-- Modal - change password - end-->
+
 <script>
 	$(document).ready(function(){
 		// Change avatar
@@ -187,7 +224,7 @@
 	    $("#birthdayUser").datepicker();
 	    $("#cityUser").select2();
 
-	    //Validate form 
+	    //Validate form user
 	    $("#formUserUpdate").validate({
 	    	rules: {
 	    		nameUser: "required",
@@ -195,6 +232,72 @@
 	    	messages: {
 	    		nameUser: "<span style='color: red'>Tên không được để trống</span>",
 	    	}
+	    });
+
+	    //Validate form change password
+	    $("#formChangePassword").validate({
+	    	rules: {
+	    		password_old : {
+	    			required 	: true,
+	    			minlength	: 6,
+	    		},
+	    		password_new : {
+	    			required 	: true,
+	    			minlength	: 6,
+	    		},
+	    		password_new_re : {
+	    			required 	: true,
+	    			equalTo		: "#password_new",
+	    			minlength	: 6,
+	    		},
+	    	},
+	    	messages: {
+	    		password_old : {
+	    			required	: "<span style='color: red'>Không được để trống</span>",
+	    			minlength	: "<span style='color: red'>Không được dưới 6 ký tự</span>",
+	    		},
+	    		password_new : {
+	    			required	: "<span style='color: red'>Không được để trống</span>",
+	    			minlength	: "<span style='color: red'>Không được dưới 6 ký tự</span>",
+	    		},
+	    		password_new_re : {
+	    			required	: "<span style='color: red'>Không được để trống</span>",
+	    			minlength	: "<span style='color: red'>Không được dưới 6 ký tự</span>",
+	    			equalTo		: "<span style='color: red'>Mật khẩu mới không khớp với nhau</span>",
+	    		},
+	    	}
+	    });
+
+	    //Change password
+	    $("#btnChanePassword").click(function(){
+	    	var data = $("#formChangePassword").serialize();
+	    	var $form = $("#formChangePassword");
+	    	if(!$form.valid()) return false;
+	    	$.ajax({
+	    		type: "POST",
+	    		url: "/manager/user/change-password-login",
+	    		data: data,
+	    		success: function(result){
+	    			console.log(result);
+	    			if(result == 'success'){
+	                	toastr.success('Thay đổi mật khẩu thành công')
+	                	$(".error_password").html('');
+	                	$("#password_old").val('');
+	                	$("#password_new").val('');
+	                	$("#password_new_re").val('');
+	                	$("#modalChangePassword").modal('hide');
+	    			}
+	                else{
+	                	$(".error_password").html('');
+	                	$(".error_password").append('<span style="color: red">Mật khẩu cũ không chính xác</span>');
+	                }
+	    		},
+	    		error: function(result){
+	    			console.log(result);
+	    			toastr.error('Lỗi hệ thống khi lưu')
+	    		}
+	    	});
+
 	    });
 	});	
 
@@ -248,6 +351,11 @@
         }
 
         return valid //true or false
+    }
+
+    function removeErrorPassword()
+    {
+    	$(".error_password").html('');
     }
 </script>
 @endsection

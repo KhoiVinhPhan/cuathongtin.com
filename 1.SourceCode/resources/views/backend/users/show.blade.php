@@ -1,4 +1,7 @@
 @extends('layouts.backend.app')
+@section('breadcrumb')
+<a href="{{ route('showUser') }}" class="tip-bottom">Danh sách user</a>
+@endsection
 @section('content')
 </style>
 <div class="panel panel-primary">
