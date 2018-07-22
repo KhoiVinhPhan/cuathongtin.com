@@ -120,4 +120,16 @@ class UserController extends Controller
             return "error";
         }
     }
+
+    public function deleteChoice(Request $request)
+    {
+        $input = $request->all();
+        if($this->userService->deleteChoice($input)) {
+            Session::flash('success', 'Xóa user thành công');
+            return redirect('manager/user/show');
+        }else {
+            Session::flash('error', 'Bạn phải chọn user để xóa');
+            return redirect('manager/user/show');
+        }
+    }
 }

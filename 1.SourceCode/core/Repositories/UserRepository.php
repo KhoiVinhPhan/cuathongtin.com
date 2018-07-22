@@ -223,4 +223,12 @@ class UserRepository implements UserRepositoryContract
         }
     }
 
+    public function deleteChoice($input)
+    {
+        if(!empty($input['checkboxUser'])) {
+            User::whereIn("user_id",$input['checkboxUser'])->delete(); 
+            return true;
+        }
+    }
+
 }

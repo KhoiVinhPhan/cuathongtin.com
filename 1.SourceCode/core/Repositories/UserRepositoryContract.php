@@ -18,4 +18,5 @@ interface UserRepositoryContract
     public function getUserTrash();
     public function restoreUser($user_id);
     public function changePasswordLogin($input);
+    public function deleteChoice($input);
 }

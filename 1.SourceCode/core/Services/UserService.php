@@ -83,4 +83,9 @@ class UserService implements UserServiceContract
         return $this->userRepository->changePasswordLogin($input);
     }
 
+    public function deleteChoice($input)
+    {
+        return $this->userRepository->deleteChoice($input);
+    }
+
 }
