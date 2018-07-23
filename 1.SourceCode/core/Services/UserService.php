@@ -88,4 +88,24 @@ class UserService implements UserServiceContract
         return $this->userRepository->deleteChoice($input);
     }
 
+    public function userEdit($user_id)
+    {
+        return $this->userRepository->userEdit($user_id);
+    }
+
+    public function checkImageEdit($user_id)
+    {
+        return $this->userRepository->checkImageEdit($user_id);
+    }
+
+    public function getDataEdit($user_id)
+    {
+        return $this->userRepository->getDataEdit($user_id);
+    }
+
+    public function updateUserEdit($input)
+    {
+        return $this->userRepository->updateUserEdit($input);
+    }
+
 }

@@ -34,7 +34,7 @@
 					        	<td style="font-weight: bold; color: #27A9E3" onclick="show(<?php echo $item->user_id; ?>)" id="<?php echo "hide".$item->user_id ?>">{{$item->name}}<span class="pull-right icon-fullscreen"></span></td>
 					        	<td>{{$item->email}}</td>
 					        	<td>
-					        		<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalEditUser<?php echo $item->user_id; ?>"><span class="icon-edit"></span> Chỉnh</button>
+					        		<a href="{{ route('editUser', ['user_id'=>$item->user_id]) }}" title=""><button type="button" class="btn btn-info btn-xs"><span class="icon-edit"></span> Chỉnh</button></a>
 				        			<a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{ route('deleteUser', ['user_id'=>$item->user_id]) }}"><button type="button" class="btn btn-danger btn-xs"><span class="icon-trash"></span> Xóa</button></a>
 					        	</td>
 					      	</tr>
@@ -88,33 +88,6 @@
 									</div>
 					      		</td>
 					      	</tr>
-					      	<!-- Modal - edit user - start -->
-							<div id="modalEditUser<?php echo $item->user_id; ?>" class="modal fade" role="dialog">
-							  	<div class="modal-dialog modal-lg">
-							    <!-- Modal content-->
-							    <div class="modal-content">
-							      	<div class="modal-header">
-							        	<button type="button" class="close" data-dismiss="modal">&times;</button>
-							        	<h4 class="modal-title">Chỉnh sửa user</h4>
-							      	</div>
-							      	<div class="modal-body">
-										<div class="col-sm-2">
-											sdf
-										</div>
-										<div class="col-sm-5">
-											sdf
-										</div>
-										<div class="col-sm-5">
-											sdf
-										</div>
-							      	</div>
-							      	<div class="modal-footer">
-							        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							      	</div>
-							    </div>
-							  	</div>
-							</div>
-							<!-- Modal - edit user - end -->
 			    		@endforeach
 			    	@endif
 			    </tbody>

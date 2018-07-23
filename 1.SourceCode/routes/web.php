@@ -44,4 +44,6 @@ Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>
     Route::get('user/trash', 'UserController@trash')->name('trashUser');
     Route::get('user/{user_id}/restore', 'UserController@restore')->name('restoreUser');
     Route::post('user/deleteChoice', 'UserController@deleteChoice')->name('deleteChoiceUser');
+    Route::get('user/{user_id}/edit', 'UserController@edit')->name('editUser');
+    Route::post('user/updateUserEdit', 'UserController@updateUserEdit')->name('updateUserEdit');
 });

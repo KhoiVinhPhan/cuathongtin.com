@@ -132,4 +132,23 @@ class UserController extends Controller
             return redirect('manager/user/show');
         }
     }
+
+    public function edit($user_id)
+    {
+        $cities         = $this->userService->getCity();
+        $user           = $this->userService->userEdit($user_id);
+        $image_user     = $this->userService->checkImageEdit($user_id);
+        $data           = $this->userService->getDataEdit($user_id);
+        return view('backend.users.edit', compact('user', 'image_user', 'cities', 'data'));
+    }
+
+    public function updateUserEdit(Request $request)
+    {
+        $input = $request->all();
+        if($this->userService->updateUserEdit($input)){
+            return "success";
+        }else{
+            return "error";
+        }
+    }
 }

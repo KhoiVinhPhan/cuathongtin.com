@@ -19,4 +19,8 @@ interface UserServiceContract
     public function restoreUser($user_id);
     public function changePasswordLogin($input);
     public function deleteChoice($input);
+    public function userEdit($user_id);
+    public function checkImageEdit($user_id);
+    public function getDataEdit($user_id);
+    public function updateUserEdit($input);
 }
