@@ -18,4 +18,9 @@ class CategoryProductService implements CategoryProductServiceContract
         return $this->categoryProductRepository->index();
     }
 
+    public function selectCategoryproduct($input)
+    {
+        return $this->categoryProductRepository->selectCategoryproduct($input);
+    }
+
 }

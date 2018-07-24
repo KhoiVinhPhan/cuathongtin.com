@@ -19,8 +19,18 @@ class CategoryProductController extends Controller
 
     public function index()
     {
-        $files = $this->categoryProductService->index();
-        return view('backend.categoryProduct.index');
+        $categoryProducts = $this->categoryProductService->index();
+        return view('backend.categoryProduct.index', compact('categoryProducts'));
+    }
+
+    public function selectCategoryproduct(Request $request)
+    {
+        $input = $request->all();
+        if($data = $this->categoryProductService->selectCategoryproduct($input)) {
+            return $data;
+        }else {
+            return "error";
+        }
     }
 
 }
