@@ -64,6 +64,7 @@ input[readonly].default-cursor {
 					$("#show_sec_category_product").append(html);
 				});
 				
+				
 			},
 			error: function(result){
 				console.log(result);
