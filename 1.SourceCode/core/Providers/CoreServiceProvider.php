@@ -5,10 +5,16 @@ use Core\Repositories\FileRepository;
 use Core\Repositories\FileRepositoryContract;
 use Core\Services\FileService;
 use Core\Services\FileServiceContract;
+
 use Core\Repositories\UserRepository;
 use Core\Repositories\UserRepositoryContract;
 use Core\Services\UserService;
 use Core\Services\UserServiceContract;
+
+use Core\Repositories\CategoryProductRepository;
+use Core\Repositories\CategoryProductRepositoryContract;
+use Core\Services\CategoryProductService;
+use Core\Services\CategoryProductServiceContract;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -25,5 +31,8 @@ class CoreServiceProvider extends ServiceProvider
 
     	$this->app->bind(UserRepositoryContract::class, UserRepository::class);
     	$this->app->bind(UserServiceContract::class, UserService::class);
+
+        $this->app->bind(CategoryProductRepositoryContract::class, CategoryProductRepository::class);
+        $this->app->bind(CategoryProductServiceContract::class, CategoryProductService::class);
     }
 }

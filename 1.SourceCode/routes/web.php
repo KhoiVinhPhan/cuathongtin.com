@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'Frontend\HomeController@index');
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::post('user/change-permission','UserController@changePermission')->name('changePermission');
     Route::post('user/change-password','UserController@changePassword')->name('changePassword');
     Route::post('user/change-password-login','UserController@changePasswordLogin')->name('changePasswordLogin');
+
+    //CATEGORY PRODUCT
+    Route::get('category-product', 'CategoryProductController@index')->name('indexCategoryProduct');
 });
 
 
@@ -46,4 +49,10 @@ Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>
     Route::post('user/deleteChoice', 'UserController@deleteChoice')->name('deleteChoiceUser');
     Route::get('user/{user_id}/edit', 'UserController@edit')->name('editUser');
     Route::post('user/updateUserEdit', 'UserController@updateUserEdit')->name('updateUserEdit');
+});
+
+
+//Route front end
+Route::group(['namespace'=>'Frontend'], function () {
+    Route::get('/', 'HomeController@index');
 });

@@ -108,6 +108,7 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   	<ul>
 	    <li class="active"><a href="{{ route('homeBackend') }}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+	    <li><a href="{{ route('indexCategoryProduct') }}"><i class="icon icon-home"></i> <span>Danh mục sản phẩm</span></a> </li>
 	    <!-- <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>
 	      	<ul>
 		        <li><a href="{{ asset('matrix-admin-package/HTML/form-common.html') }}">Basic Form</a></li>
