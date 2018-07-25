@@ -23,4 +23,14 @@ class CategoryProductService implements CategoryProductServiceContract
         return $this->categoryProductRepository->selectCategoryproduct($input);
     }
 
+    public function store($input)
+    {
+        return $this->categoryProductRepository->store($input);
+    }
+
+    public function deleteSecCategoryProduct($input)
+    {
+        return $this->categoryProductRepository->deleteSecCategoryProduct($input);
+    }
+
 }
