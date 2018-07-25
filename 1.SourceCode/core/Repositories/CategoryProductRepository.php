@@ -4,6 +4,7 @@ namespace Core\Repositories;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use App\Models\SecCategoryProduct;
+use App\Models\CategoryProduct;
 
 class CategoryProductRepository implements CategoryProductRepositoryContract
 {
@@ -108,5 +109,25 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
         // echo "<pre>";print_r($input['data']['sec_category_product_id']);exit;
         SecCategoryProduct::find($input['data']['sec_category_product_id'])->delete();
         return true;
+    }
+
+    public function deleteCategoryProduct($input)
+    {
+        DB::beginTransaction();
+        try{
+            //Delete category
+            CategoryProduct::find($input['data']['category_product_id'])->delete();
+            //Delete second category
+            DB::table('sec_category_product')
+                ->where('category_product_id', $input['data']['category_product_id'])
+                ->update([
+                    'deleted_at' => now(),
+                ]);
+            DB::commit();
+            return true;
+        }catch(\Exception $e){
+            DB::rollback();
+            return false;
+        }
     }
 }

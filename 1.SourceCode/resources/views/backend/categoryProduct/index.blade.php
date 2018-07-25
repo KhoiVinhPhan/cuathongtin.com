@@ -13,14 +13,14 @@
 	  	<div class="panel-body">
 	  		<div class="col-sm-6">
 	  			<div class="alert alert-info">
-				  	<strong>Category</strong>
+				  	<strong><span class="icon-list-ul"></span> <a href="javascript:;" title="Thêm mới Category" id="reloadCreateCategory">Category</a></strong>
 				</div>
 				<div id="show_category_product">
 					@foreach($categoryProducts as $item)
-			  			<div class="input-group">
+			  			<div class="input-group" id="<?php echo "category_id".$item->category_product_id; ?>">
 						    <input onclick="selectCategoryProduct(<?php echo $item->category_product_id; ?>)" type="text" readonly class="form-control default-cursor" id="<?php echo "category_product".$item->category_product_id; ?>" value="{{ $item->name }}">
 						    <div class="input-group-btn">
-						      	<button onclick="deleteCategoryProduct(<?php echo $item->category_product_id; ?>)" class="btn btn-default remove-category" type="button">
+						      	<button onclick="deleteCategoryProduct(<?php echo $item->category_product_id; ?>)" class="btn btn-danger remove-category" type="button">
 						        	<i class="icon-remove"></i>
 						      	</button>
 						    </div>
@@ -30,7 +30,7 @@
 	  		</div>
 	  		<div class="col-sm-6">
 	  			<div class="form-group">
-				  	<label>Category:</label>
+				  	<label>Category<span style="color:red">*</span>:</label>
 				  	<input type="hidden" class="form-control" name="category_product_id" id="category_product_id" value="">
 				  	<input type="text" class="form-control" name="category_product_value" id="category_product_value" value="">
 				</div>
@@ -45,17 +45,11 @@
 	  	</div>
 	  	<div class="panel-footer">
 	  		<button type="button" class="btn btn-success" id="btnSubmitForm">Thêm mới</button>
-	  		<button type="button" class="btn btn-info" id="reloadPage"><span class="icon-refresh"></span></button>
 	  	</div>
 	</div>
 </form>
 <script>
 	$(document).ready(function(){
-		//Reload page
-		$("#reloadPage").click(function(){
-			location.reload();
-		});
-
 		//Validate form Category
 		$("#formCategoryProduct").validate({
 			rules:{
@@ -73,6 +67,13 @@
 		$("#btnSubmitForm").click(function(){
 			if(!$("#formCategoryProduct").valid()) return false;
 			$("#formCategoryProduct").submit();
+		});
+
+		$("#reloadCreateCategory").click(function(){
+			$("#second_category").html('');
+			$("#show_sec_category_product").html('');
+			$("#category_product_id").val('');
+			$("#category_product_value").val('');
 		});
 	});
 
@@ -95,13 +96,13 @@
 					+	"<input type='hidden' class='form-control' name='sec_category_product_id' id='sec_category_product_id' value=''>"
 					+	"<input type='text' class='form-control' name='sec_category_product_value' id='sec_category_product_value' value=''>"
 					+"</div>");
-				$("#show_sec_category_product").html("<div class='alert alert-info'><strong>Second Category</strong></div>");
+				$("#show_sec_category_product").html("<div class='alert alert-info'><strong><span class='icon-list-ul'></span> Second Category</strong></div>");
 				$.each( result, function( key, value ) {
 				  	var html = 
-					"<div class='input-group'>"
+					"<div class='input-group' id='sec_category_id"+result[key]['sec_category_product_id']+"'>"
 					+"	<input id='sec_category_product"+result[key]['sec_category_product_id']+"' onclick='selectSecCategoryProduct("+result[key]['sec_category_product_id']+")' type='text' readonly class='form-control default-cursor' value='"+result[key]['name']+"'>"
 					+"	<div class='input-group-btn'>"
-					+"		<button onclick='deleteSecCategory("+result[key]['sec_category_product_id']+")' class='btn btn-default remove-sec-category' type='button'><i class='icon-remove'></i></button"
+					+"		<button onclick='deleteSecCategory("+result[key]['sec_category_product_id']+")' class='btn btn-danger remove-sec-category' type='button'><i class='icon-remove'></i></button"
 					+"	</div>"
 					+"</div>";
 					$("#show_sec_category_product").append(html);
@@ -128,31 +129,44 @@
 		var data = {
 			sec_category_product_id: sec_category_product_id,
 		}
-		$("#show_sec_category_product").on('click', '.remove-sec-category', function(){
-			var index = $(this).closest("div.input-group").index();
-			$(this).closest("div.input-group").remove();
-			$.ajax({
-				type: "POST",
-				url: "/manager/sec-category-product/delete",
-				data: {'data': data, '_token': '{{ csrf_token() }}'},
-				success: function(result){
-					console.log(result);
-					toastr.success('Xóa thành công')
-					$(this).closest("div.input-group").remove();
-				},
-				error: function(result){
-					console.log(result);
-					toastr.error('Lỗi hệ thống khi lưu')
-				}
-			});
+		$.ajax({
+			type: "POST",
+			url: "/manager/sec-category-product/delete",
+			data: {'data': data, '_token': '{{ csrf_token() }}'},
+			success: function(result){
+				console.log(result);
+				toastr.success('Xóa thành công');
+				$("#sec_category_id"+sec_category_product_id).remove();
+			},
+			error: function(result){
+				console.log(result);
+				toastr.error('Lỗi hệ thống khi lưu');
+			}
 		});
 	}
 
 	//Delete category
 	function deleteCategoryProduct(category_product_id){
-		$("#show_category_product").on('click', '.remove-category', function(){
-			var index = $(this).closest(".input-group").index();
-			$(this).closest(".input-group").remove();
+		var data = {
+			category_product_id: category_product_id,
+		}
+		$.ajax({
+			type: "POST",
+			url: "/manager/category-product/delete",
+			data: {'data': data, '_token': '{{ csrf_token() }}'},
+			success: function(result){
+				console.log(result);
+				toastr.success('Xóa thành công');
+				$("#category_id"+category_product_id).remove();
+				$("#second_category").html('');
+				$("#show_sec_category_product").html('');
+				$("#category_product_id").val('');
+				$("#category_product_value").val('');
+			},
+			error: function(result){
+				console.log(result);
+				toastr.error('Lỗi hệ thống khi lưu');
+			}
 		});
 	}
 </script>

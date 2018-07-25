@@ -56,4 +56,14 @@ class CategoryProductController extends Controller
         }
     }
 
+    public function deleteCategoryProduct(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryProductService->deleteCategoryProduct($input)) {
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+
 }

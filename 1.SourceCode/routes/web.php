@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::post('select-category-product', 'CategoryProductController@selectCategoryproduct')->name('selectCategoryproduct');
     Route::post('category-product/store', 'CategoryProductController@store')->name('storeCategoryProduct');
     Route::post('sec-category-product/delete', 'CategoryProductController@deleteSecCategoryProduct')->name('deleteSecCategoryProduct');
+    Route::post('category-product/delete', 'CategoryProductController@deleteCategoryProduct')->name('deleteCategoryProduct');
 });
 
 
