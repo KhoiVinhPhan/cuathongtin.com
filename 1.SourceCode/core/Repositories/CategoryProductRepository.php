@@ -134,14 +134,10 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
     public function getCategoryProduct()
     {
         $data = DB::table('category_product')
-                    ->select(array(
+                    ->select(
                         'category_product.category_product_id'
                         , 'category_product.name as category_product_value'
-                        // , 'sec_category_product.name as sec_category_product_value'
                         , DB::raw("GROUP_CONCAT(sec_category_product.name SEPARATOR ',') AS 'sec_category_product_value'")
-                        // , DB::raw('(CASE WHEN sec_category_product.sec_category_product_id = 2 THEN 1 ELSE 0 END) AS is_user')
-                    )
-                        
                     )
                     ->leftjoin('sec_category_product', 'sec_category_product.category_product_id', '=', 'category_product.category_product_id')
                     ->groupBy('category_product.category_product_id')
