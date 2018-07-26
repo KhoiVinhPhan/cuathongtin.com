@@ -9,4 +9,5 @@ interface CategoryProductServiceContract
     public function store($input);
     public function deleteSecCategoryProduct($input);
     public function deleteCategoryProduct($input);
+    public function getCategoryProduct();
 }

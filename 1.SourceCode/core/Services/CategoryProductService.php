@@ -38,4 +38,9 @@ class CategoryProductService implements CategoryProductServiceContract
         return $this->categoryProductRepository->deleteCategoryProduct($input);
     }
 
+    public function getCategoryProduct()
+    {
+        return $this->categoryProductRepository->getCategoryProduct();
+    }
+
 }

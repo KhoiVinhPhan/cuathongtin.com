@@ -501,7 +501,6 @@
 		<!-- /container -->
 	</div>
 	<!-- /section -->
-
 	@yield('contents')
 
 	<!-- FOOTER -->
