@@ -137,9 +137,17 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
                     ->select(
                         'category_product.category_product_id'
                         , 'category_product.name as category_product_value'
+                        , DB::raw("GROUP_CONCAT(sec_category_product.sec_category_product_id SEPARATOR ',') AS 'sec_category_product_id'")
                         , DB::raw("GROUP_CONCAT(sec_category_product.name SEPARATOR ',') AS 'sec_category_product_value'")
+                        // , 'temp.*'
                     )
                     ->leftjoin('sec_category_product', 'sec_category_product.category_product_id', '=', 'category_product.category_product_id')
+                    // ->join(DB::raw('(
+                    //                     SELECT
+                    //                         sec_category_product.*
+                    //                     FROM
+                    //                         sec_category_product
+                    //                 ) AS temp'), 'temp.category_product_id', '=', 'category_product.category_product_id')
                     ->groupBy('category_product.category_product_id')
                     ->whereNull('category_product.deleted_at')
                     ->whereNull('sec_category_product.deleted_at')
