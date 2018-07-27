@@ -137,21 +137,25 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
                     ->select(
                         'category_product.category_product_id'
                         , 'category_product.name as category_product_value'
-                        , DB::raw("GROUP_CONCAT(sec_category_product.sec_category_product_id SEPARATOR ',') AS 'sec_category_product_id'")
-                        , DB::raw("GROUP_CONCAT(sec_category_product.name SEPARATOR ',') AS 'sec_category_product_value'")
-                        // , 'temp.*'
+                        // , 'sec_category_product.sec_category_product_id as sec_category_product_id'
+                        // , 'sec_category_product.name as sec_category_product_value'
+                        // , DB::raw("GROUP_CONCAT(sec_category_product.sec_category_product_id SEPARATOR ',') AS 'sec_category_product_id'")
+                        // , DB::raw("GROUP_CONCAT(sec_category_product.name SEPARATOR ',') AS 'sec_category_product_value'")
+                        , DB::raw("(SELECT sec_category_product.category_product_id FROM sec_category_product WHERE sec_category_product.category_product_id = category_product.category_product_id) AS khoivinh")
                     )
                     ->leftjoin('sec_category_product', 'sec_category_product.category_product_id', '=', 'category_product.category_product_id')
-                    // ->join(DB::raw('(
-                    //                     SELECT
-                    //                         sec_category_product.*
-                    //                     FROM
-                    //                         sec_category_product
-                    //                 ) AS temp'), 'temp.category_product_id', '=', 'category_product.category_product_id')
                     ->groupBy('category_product.category_product_id')
                     ->whereNull('category_product.deleted_at')
                     ->whereNull('sec_category_product.deleted_at')
                     ->get();
+        $posts = [];
+        foreach ($data as $key => $value) {
+            // echo "<pre>";print_r($data[$key]);exit;
+            $row['second_value'] = explode(',', $data[$key]->sec_category_product_value);
+            // echo "<pre>";print_r($row);exit;
+            $posts[$key] = $row;
+        }
+
         echo "<pre>";print_r($data);exit;
     }
 }
