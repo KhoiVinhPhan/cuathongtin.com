@@ -159,7 +159,7 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
                                             );
                 }
             }
-            echo "<pre>";print_r($array_sec_category);exit;
+            // echo "<pre>";print_r($array_sec_category);exit;
             $result[] = array(
                             'category_product_id'       => $value->category_product_id,
                             'category_product_value'    => $value->category_product_value,
