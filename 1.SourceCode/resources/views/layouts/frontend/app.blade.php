@@ -182,11 +182,11 @@
 			<div id="responsive-nav">
 				<!-- category nav -->
 				<div class="category-nav">
-					<span class="category-header">Categories111 <i class="fa fa-list"></i></span>
+					<span class="category-header">Danh mục <i class="fa fa-list"></i></span>
 					<ul class="category-list">
 						@foreach($categories as $item)
 						<li class="dropdown side-dropdown">
-							<a id="{{ $item['category_product_id'] }}" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{ $item['category_product_value'] }} <i class="fa fa-angle-right"></i></a>
+							<a id="{{ $item['category_product_id'] }}" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{ $item['category_product_value'] }} <i class="@if(count($item['sec_category']) > 0) fa fa-angle-right @endif"></i></a>
 							@if(count($item['sec_category']) > 0)
 							<div class="custom-menu" style="width: 100%;">
 								<div class="row">
@@ -194,7 +194,7 @@
 										<ul class="list-links">
 											<li><h3 class="list-links-title">{{ $item['category_product_value'] }}</h3></li>
 											@foreach($item['sec_category'] as $value)
-												<li><a href="#">Women’s Clothing</a></li>
+												<li><a href="#" id="{{ $value['sec_category_id'] }}">{{ $value['sec_category_value'] }}</a></li>
 											@endforeach
 										</ul>
 										<hr class="hidden-md hidden-lg">
