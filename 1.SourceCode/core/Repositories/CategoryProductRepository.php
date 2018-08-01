@@ -137,20 +137,20 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
                     ->select(
                         'category_product.category_product_id'
                         , 'category_product.name as category_product_value'
-                        , DB::raw("GROUP_CONCAT(CONCAT(sec_category_product.sec_category_product_id, ':', sec_category_product.name) SEPARATOR ',') AS 'value_sec_category'")
+                        , DB::raw("GROUP_CONCAT(CONCAT(sec_category_product.sec_category_product_id, ':', sec_category_product.name) ORDER BY sec_category_product.sec_category_product_id ASC  SEPARATOR ',') AS 'value_sec_category'")
                     )
-                    ->leftjoin('sec_category_product', 'sec_category_product.category_product_id', '=', 'category_product.category_product_id')
+                    ->leftjoin('sec_category_product', function($join){
+                        $join->on('sec_category_product.category_product_id', '=', 'category_product.category_product_id');
+                        $join->whereNull('sec_category_product.deleted_at');
+                    })
                     ->groupBy('category_product.category_product_id')
                     ->whereNull('category_product.deleted_at')
-                    ->whereNull('sec_category_product.deleted_at')
                     ->get();
-        echo "<pre>";print_r($data);exit;
+
         $result = array();
         foreach ($data as $key => $value) {
             $array_sec_category = array();
-            if(empty($value->value_sec_category)){
-                $array_sec_category = array();
-            }else{
+            if(!empty($value->value_sec_category)){
                 foreach (explode(',', $value->value_sec_category) as $item) {
                     $item = explode(':', $item);
                     $array_sec_category[] = array(
@@ -159,14 +159,13 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
                                             );
                 }
             }
-            // echo "<pre>";print_r($array_sec_category);exit;
             $result[] = array(
                             'category_product_id'       => $value->category_product_id,
                             'category_product_value'    => $value->category_product_value,
                             'sec_category'              => $array_sec_category,
                         );
         }
-        echo "<pre>";print_r($result);exit;
+        // echo "<pre>";print_r($result);exit;
         return $result;
     }
 }

@@ -182,66 +182,28 @@
 			<div id="responsive-nav">
 				<!-- category nav -->
 				<div class="category-nav">
-					<span class="category-header">Categories <i class="fa fa-list"></i></span>
+					<span class="category-header">Categories111 <i class="fa fa-list"></i></span>
 					<ul class="category-list">
+						@foreach($categories as $item)
 						<li class="dropdown side-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Women’s Clothing <i class="fa fa-angle-right"></i></a>
+							<a id="{{ $item['category_product_id'] }}" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{ $item['category_product_value'] }} <i class="fa fa-angle-right"></i></a>
+							@if(count($item['sec_category']) > 0)
 							<div class="custom-menu" style="width: 100%;">
 								<div class="row">
 									<div class="col-md-12" >
 										<ul class="list-links">
-											<li><h3 class="list-links-title">Categories11</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
+											<li><h3 class="list-links-title">{{ $item['category_product_value'] }}</h3></li>
+											@foreach($item['sec_category'] as $value)
+												<li><a href="#">Women’s Clothing</a></li>
+											@endforeach
 										</ul>
 										<hr class="hidden-md hidden-lg">
 									</div>
 								</div>
 							</div>
+							@endif
 						</li>
-						<li><a href="#">Men’s Clothing</a></li>
-						<li class="dropdown side-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Phones & Accessories <i class="fa fa-angle-right"></i></a>
-							<div class="custom-menu" style="width: 100%;">
-								<div class="row">
-									<div class="col-md-12" >
-										<ul class="list-links">
-											<li><h3 class="list-links-title">Categories11</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
-										</ul>
-										<hr class="hidden-md hidden-lg">
-									</div>
-								</div>
-							</div>
-						</li>
-						<li><a href="#">Computer & Office</a></li>
-						<li><a href="#">Consumer Electronics</a></li>
-						<li class="dropdown side-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Jewelry & Watches <i class="fa fa-angle-right"></i></a>
-							<div class="custom-menu" style="width: 100%;">
-								<div class="row">
-									<div class="col-md-12" >
-										<ul class="list-links">
-											<li><h3 class="list-links-title">Categories11</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
-										</ul>
-										<hr class="hidden-md hidden-lg">
-									</div>
-								</div>
-							</div>
-						</li>
-						<li><a href="#">Bags & Shoes</a></li>
-						<li><a href="#">View All</a></li>
+						@endforeach
 					</ul>
 				</div>
 				<!-- /category nav -->
