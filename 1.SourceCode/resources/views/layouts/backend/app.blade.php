@@ -35,7 +35,9 @@
 	<script src="{{ asset('select2/dist/js/select2.min.js') }}"></script>
 
 	<script src="{{ asset('js/public.js') }}"></script>
-
+	<!-- CKEDITOR -->
+	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+	<script src="{{ asset('ckfinder/ckfinder.js') }}"></script>
 </head>
 <body>
 
@@ -109,7 +111,7 @@
   	<ul>
 	    <li class="{{ request()->is('manager') ? 'active' : '' }}"><a href="{{ route('homeBackend') }}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
 	    <li class="{{ request()->is('manager/category-product') ? 'active' : '' }}"><a href="{{ route('indexCategoryProduct') }}"><i class="icon-reorder"></i> <span>Danh mục sản phẩm</span></a> </li>
-	    <li class="{{ request()->is('manager/banner-slide') ? 'active' : '' }}"><a href="{{ route('indexBannerSlide') }}"><i class="icon-reorder"></i> <span>Banner</span></a> </li>
+	    <li class="{{ (request()->is('manager/banner-slide') || request()->is('manager/banner-slide/create') ) ? 'active' : '' }}"><a href="{{ route('indexBannerSlide') }}"><i class="icon-reorder"></i> <span>Banner</span></a> </li>
 	    <!-- <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>
 	      	<ul>
 		        <li><a href="{{ asset('matrix-admin-package/HTML/form-common.html') }}">Basic Form</a></li>
@@ -174,9 +176,7 @@
 <script src="{{ url('DataTables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('matrix-admin-package/HTML/js/matrix.tables.js') }}"></script> 
 
-
 <script type="text/javascript">
-
 	setTimeout(function(){ 
 		$("#successMessage").remove();
 	}, 3000);

@@ -3,8 +3,7 @@
 <div class="panel panel-primary">
   	<div class="panel-heading">Banner</div>
   	<div class="panel-body">
-		<a href="" title="Thêm mới"><button type="button" class="btn btn-success btn-sm"><span class="icon-plus"></span> Thêm mới</button></a>
-		<button type="" class="btn btn-danger btn-sm">Xóa nhiều</button>
+		<a href="{{ route('createBannerSlide') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm"><span class="icon-plus"></span> Thêm mới</button></a>
   		<table class="table table-bordered" id="table">
 		    <thead>
 		      	<tr>

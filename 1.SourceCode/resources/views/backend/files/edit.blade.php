@@ -22,13 +22,23 @@
 	  		<button type="button" class="btn btn-success" id="btnSave">Lưu</button>	
 	  	</div>	  	
 	</div>
-	
 </form>
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<!-- CKEDITOR -->
 <script>
+
 	CKEDITOR.replace('editor', {
-        height: "500px"
-	}); 
+        height: "500px",
+        filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
+        filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
+        filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',
+        filebrowserUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+        filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+        filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+	});
+	CKEDITOR.add         
+</script>
+<!-- END CKEDITOR -->
+<script>
 	$(document).ready(function(){
 		//Save File
 		$("#btnSave").click(function(){

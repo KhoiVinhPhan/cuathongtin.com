@@ -23,6 +23,15 @@ class BannerSlideController extends Controller
         return view('backend.bannerSlide.index');
     }
 
-    
+    public function create()
+    {
+    	return view('backend.bannerSlide.create');
+    }
+
+    public function store(Request $request)
+    {
+    	$input = $request->all();
+    	echo "<pre>";print_r($input);exit;
+    }
 
 }

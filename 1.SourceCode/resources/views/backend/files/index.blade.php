@@ -2,8 +2,9 @@
 
 @section('content')
 	<div class="panel panel-primary">
-	  	<div class="panel-heading">Danh sách file <a href="{{ route('createFile') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm">Thêm mới</button></a></div>
+	  	<div class="panel-heading">Danh sách file</div>
 	  	<div class="panel-body">
+	  		<a href="{{ route('createFile') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm">Thêm mới</button></a>
 	  		<table class="table table-bordered" id="table">
 			    <thead>
 			      	<tr>

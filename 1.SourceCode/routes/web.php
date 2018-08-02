@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
 
     //BANNER SLIDE
     Route::get('banner-slide', 'BannerSlideController@index')->name('indexBannerSlide');
+    Route::get('banner-slide/create', 'BannerSlideController@create')->name('createBannerSlide');
+    Route::post('banner-slide/store', 'BannerSlideController@store')->name('storeBannerSlide');
 });
 
 
