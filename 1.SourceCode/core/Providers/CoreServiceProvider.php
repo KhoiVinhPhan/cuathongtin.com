@@ -16,6 +16,11 @@ use Core\Repositories\CategoryProductRepositoryContract;
 use Core\Services\CategoryProductService;
 use Core\Services\CategoryProductServiceContract;
 
+use Core\Repositories\BannerSlideRepository;
+use Core\Repositories\BannerSlideRepositoryContract;
+use Core\Services\BannerSlideService;
+use Core\Services\BannerSlideServiceContract;
+
 class CoreServiceProvider extends ServiceProvider
 {
 
@@ -34,5 +39,8 @@ class CoreServiceProvider extends ServiceProvider
 
         $this->app->bind(CategoryProductRepositoryContract::class, CategoryProductRepository::class);
         $this->app->bind(CategoryProductServiceContract::class, CategoryProductService::class);
+
+        $this->app->bind(BannerSlideRepositoryContract::class, BannerSlideRepository::class);
+        $this->app->bind(BannerSlideServiceContract::class, BannerSlideService::class);
     }
 }

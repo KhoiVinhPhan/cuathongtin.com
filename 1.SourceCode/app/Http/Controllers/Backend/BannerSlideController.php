@@ -4,23 +4,24 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Core\Services\CategoryProductServiceContract;
+use Core\Services\BannerSlideServiceContract;
 use Auth;
 use Session;
 
 class BannerSlideController extends Controller
 {
-	protected $categoryProductService;
+	protected $bannerSlideService;
 
-	public function __construct(CategoryProductServiceContract $categoryProductService)
+	public function __construct(BannerSlideServiceContract $bannerSlideService)
     {
-        $this->categoryProductService = $categoryProductService;
+        $this->bannerSlideService = $bannerSlideService;
     }
 
 
     public function index()
     {
-        return view('backend.bannerSlide.index');
+    	$data = $this->bannerSlideService->index();
+        return view('backend.bannerSlide.index', compact('data'));
     }
 
     public function create()
@@ -31,7 +32,42 @@ class BannerSlideController extends Controller
     public function store(Request $request)
     {
     	$input = $request->all();
-    	echo "<pre>";print_r($input);exit;
+    	if($banner_slide_id = $this->bannerSlideService->store($input)){
+    		Session::flash('success', 'Tạo thành công');
+    		return redirect('manager/banner-slide');
+    	}else{
+    		Session::flash('error', 'Tạo không thành công');
+    		return redirect('manager/banner-slide/create');
+    	}
+    }
+
+    public function edit($banner_slide_id)
+    {
+    	$banner = $this->bannerSlideService->edit($banner_slide_id);
+    	return view('backend.bannerSlide.edit', compact('banner'));
+    }
+
+    public function update(Request $request)
+    {
+    	$input = $request->all();
+    	if($this->bannerSlideService->update($input)){
+    		Session::flash('success', 'Chỉnh sửa banner thành công');
+    		return redirect('manager/banner-slide');
+    	}else{
+    		Session::flash('error', 'Chỉnh sửa không thành công');
+    		return redirect('manager/banner-slide/'.$input['banner_slide_id'].'/edit');
+    	}
+    }
+
+    public function delete($banner_slide_id)
+    {
+    	if($this->bannerSlideService->delete($banner_slide_id)){
+    		Session::flash('success', 'Xóa thành công');
+    		return redirect('manager/banner-slide');
+    	}else{
+    		Session::flash('error', 'Xóa không thành công');
+    		return redirect('manager/banner-slide');
+    	}
     }
 
 }
