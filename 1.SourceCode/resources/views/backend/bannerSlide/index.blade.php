@@ -7,12 +7,12 @@
   		<table class="table table-bordered" id="table">
 		    <thead>
 		      	<tr>
-		      		<th><input type="checkbox" id="select_all_banner"></th>
-			        <th>STT</th>
-			        <th style="width:100px">Hình ảnh</th>
-			        <th>Tiêu đề</th>
-			        <th>Thông tin</th>
-			        <th>Hành động</th>
+		      		<th style="width:5%"><input type="checkbox" id="select_all_banner"></th>
+			        <th style="width:5%">STT</th>
+			        <th style="width:10%">Hình ảnh</th>
+			        <th style="width:35%">Tiêu đề</th>
+			        <th style="width:35%">Thông tin</th>
+			        <th style="width:10%">Hành động</th>
 		      	</tr>
 		    </thead>
 		    <tbody>
@@ -23,13 +23,13 @@
 	    				<td align="center"><input type="checkbox" value="{{ $item->banner_slide_id }}" name="checkboxUser[]"></td>
 			        	<td align="center">{{$i}}</td>
 			        	<td>
-			        		<img src="@if(!empty($item->path_to_image)) {{ $item->path_to_image }} @else {{ asset('image_user/no_image.png') }} @endif" width="100px" height="auto">
+			        		<img src="@if(!empty($item->path_to_image)) {{ $item->path_to_image }} @else {{ asset('image_user/no_image.png') }} @endif" width="100%" height="auto">
 			        	</td>
 			        	<td>{{ $item->title }}</td>
 			        	<td>{{ $item->information }}</td>
 			        	<td>
-			        		<a href="{{ route('editBannerSlide', ['banner_slide_id'=>$item->banner_slide_id]) }}" title=""><button type="button" class="btn btn-info btn-xs"><span class="icon-edit"></span> Chỉnh</button></a>
-			        		<a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{ route('deleteBannerSlide', ['banner_slide_id'=>$item->banner_slide_id]) }}"><button type="button" class="btn btn-danger btn-xs"><span class="icon-trash"></span> Xóa</button></a>
+			        		<a href="{{ route('editBannerSlide', ['banner_slide_id'=>$item->banner_slide_id]) }}" title=""><button type="button" class="btn btn-info btn-xs btn-block"><span class="icon-edit"></span> Chỉnh</button></a>
+			        		<a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{ route('deleteBannerSlide', ['banner_slide_id'=>$item->banner_slide_id]) }}"><button type="button" class="btn btn-danger btn-xs btn-block"><span class="icon-trash"></span> Xóa</button></a>
 			        	</td>
 			      	</tr>
 		      	@endforeach
