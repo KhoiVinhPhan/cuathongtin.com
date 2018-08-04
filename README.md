@@ -1,6 +1,7 @@
-Project: cuathongtin.com
-created_at: 16/06/2018
-user_make: khoivinhphan
+Information
+	Project: cuathongtin.com
+	created_at: 16/06/2018
+	user_make: khoivinhphan
 
 Tài liệu tham khảo:
 	Kiến trúc laravel
@@ -8,3 +9,22 @@ Tài liệu tham khảo:
 
 	Thông báo - notification 
 	http://codeseven.github.io/toastr/demo.html
+
+
+table: news
+	new_id
+	title
+	content
+	category_new_id
+	status: công khai, bản nháp
+	user_maked
+	user_update
+	user_delete
+
+table: category_news
+	category_new_id
+	name
+	user_maked
+	user_update
+	user_delete
+
