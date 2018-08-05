@@ -46,6 +46,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::get('banner-slide/{banner_slide_id}/edit', 'BannerSlideController@edit')->name('editBannerSlide');
     Route::post('banner-slide/update', 'BannerSlideController@update')->name('updateBannerSlide');
     Route::get('banner-slide/{banner_slide_id}/delete', 'BannerSlideController@delete')->name('deleteBannerSlide');
+
+    //POSTS
+    Route::get('posts', 'PostsController@index')->name('indexPosts');
+    Route::get('posts/create', 'PostsController@create')->name('createPosts');
 });
 
 

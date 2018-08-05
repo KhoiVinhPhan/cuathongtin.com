@@ -112,6 +112,7 @@
 	    <li class="{{ request()->is('manager') ? 'active' : '' }}"><a href="{{ route('homeBackend') }}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
 	    <li class="{{ request()->is('manager/category-product') ? 'active' : '' }}"><a href="{{ route('indexCategoryProduct') }}"><i class="icon-reorder"></i> <span>Danh mục sản phẩm</span></a> </li>
 	    <li class="{{ ( request()->is('manager/banner-slide') || request()->is('manager/banner-slide/create') || request()->is('manager/banner-slide/*/edit') ) ? 'active' : '' }}"><a href="{{ route('indexBannerSlide') }}"><i class="icon-picture"></i> <span>Banner</span></a> </li>
+	    <li class="{{ ( request()->is('manager/posts') || request()->is('manager/posts/create')) ? 'active' : '' }}"><a href="{{ route('indexPosts') }}"><i class="icon-reorder"></i> <span>Bài viết</span></a> </li>
 	    <!-- <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>
 	      	<ul>
 		        <li><a href="{{ asset('matrix-admin-package/HTML/form-common.html') }}">Basic Form</a></li>
