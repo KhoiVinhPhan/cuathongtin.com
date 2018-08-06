@@ -5,7 +5,7 @@
   	<div class="panel-body">
 		<div class="col-sm-9">
 			<div class="form-group">
-	  			<label>Tiêu đề</label>
+	  			<label>Tiêu đề <span style="color: red">*</span></label>
 	  			<input type="text" class="form-control" name="title">
 	  		</div>
 	  		<div class="form-group">
@@ -25,19 +25,20 @@
 			<div class="panel panel-default">
 			  	<div class="panel-heading"><span class="icon-list-ul"></span> Chuyên mục</div>
 			  	<div class="panel-body">
-			  		<div class="checkbox">
-					  	<label><input type="checkbox" value="">Option 1</label>
-					</div>
-					<div class="checkbox">
-					  	<label><input type="checkbox" value="">Option 1</label>
-					</div>
-					<div class="checkbox">
-					  	<label><input type="checkbox" value="">Option 1</label>
-					</div>
-					<div class="checkbox">
-					  	<label><input type="checkbox" value="">Option 1</label>
-					</div>
-					<a href="" title="">Thêm chuyên mục</a>
+			  		@foreach($category_news as $item)
+				  		<div class="checkbox">
+						  	<label><input type="checkbox" value="{{ $item->category_new_id }}">{{ $item->name }}</label>
+						</div>
+					@endforeach
+					<a href="javascrip:;" title="Thêm" id="addCategory">Thêm chuyên mục</a>
+					<div class="input-group" style="display: none" id="inputCategory">
+			    		<input type="text" class="form-control" placeholder="Nhập chuyên mục">
+				    	<div class="input-group-btn">
+					      	<button class="btn btn-info" type="submit">
+					        	<i class="icon icon-plus"></i>
+					      	</button>
+				    	</div>
+				  	</div>
 			  	</div>
 			</div>
 
@@ -79,4 +80,11 @@
 	CKEDITOR.add         
 </script>
 <!-- END CKEDITOR -->
+<script>
+	$(document).ready(function(){
+		$('#addCategory').click(function(){
+			$('#inputCategory').toggle();;
+		});
+	});
+</script>
 @endsection

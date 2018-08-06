@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Core\Services\BannerSlideServiceContract;
+use Core\Services\CategoryPostServiceContract;
 use Auth;
 use Session;
 
 class PostsController extends Controller
 {
-	protected $bannerSlideService;
+	protected $categoryPostService;
 
-	public function __construct(BannerSlideServiceContract $bannerSlideService)
+	public function __construct(CategoryPostServiceContract $categoryPostService)
     {
-        $this->bannerSlideService = $bannerSlideService;
+        $this->categoryPostService = $categoryPostService;
     }
 
 
@@ -25,7 +25,8 @@ class PostsController extends Controller
 
     public function create()
     {
-        return view('backend.posts.create');
+        $category_news = $this->categoryPostService->getDataCategoryNew();
+        return view('backend.posts.create', compact('category_news'));
     }
 
 }
