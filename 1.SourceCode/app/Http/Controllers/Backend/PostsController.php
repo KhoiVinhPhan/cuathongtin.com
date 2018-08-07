@@ -41,7 +41,8 @@ class PostsController extends Controller
 
     public function categoryPost()
     {
-        return view('backend.posts.indexCategoryPost');
+        $category_news = $this->categoryPostService->getDataCategoryNew();
+        return view('backend.posts.indexCategoryPost', compact('category_news'));
     }
 
 }
