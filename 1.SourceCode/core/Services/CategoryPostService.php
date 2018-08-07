@@ -18,4 +18,9 @@ class CategoryPostService implements CategoryPostServiceContract
          return $this->categorypostRepository->getDataCategoryNew();
     }
 
+    public function addCategoryPost($input)
+    {
+         return $this->categorypostRepository->addCategoryPost($input);
+    }
+
 }
