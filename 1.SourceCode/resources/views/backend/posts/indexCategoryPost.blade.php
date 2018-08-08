@@ -9,18 +9,18 @@
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Tiêu đề <span style="color: red">*</span></label>
-					<input type="text" name="title" class="form-control">
+					<input type="text" name="title" id="title" class="form-control">
 				</div>
 				<div class="form-group">
 					<label>Mô tả:</label>
-					<textarea class="form-control"  name="information" rows="5"></textarea>
+					<textarea class="form-control"  name="information" id="information" rows="5"></textarea>
 				</div>
 				<div class="form-group">
 					<button type="button" class="btn btn-success btn-sm pull-right" id="addCategory"><span class="icon icon-plus"></span> Thêm mới</button>
 				</div>
 			</div>
 			<div class="col-sm-8">
-				<button type="button" class="btn btn-danger btn-sm delete-row">Xóa nhiều</button>
+				<button type="button" class="btn btn-danger btn-sm delete-row"><span class="icon icon-trash"></span> Xóa chọn</button>
 				<table class="table table-bordered" id="categoryTable">
 				    <thead>
 				      	<tr>
@@ -53,31 +53,35 @@
 	</div>
 </form>
 <!-- Modal edit category - start -->
-<div id="modalEditCategory" class="modal fade" role="dialog">
-  	<div class="modal-dialog">
-    <div class="modal-content">
-      	<div class="modal-header">
-        	<button type="button" class="close" data-dismiss="modal">&times;</button>
-        	<h4 class="modal-title"><span class="icon icon-edit"></span> Chỉnh sửa</h4>
-      	</div>
-      	<div class="modal-body">
-      		<input type="text" hidden name="idCategory" id="idCategory">
-        	<div class="form-group">
-				<label>Tiêu đề <span style="color: red">*</span></label>
-				<input type="text" name="titleCategory" class="form-control" id="titleCategory">
-			</div>
-			<div class="form-group">
-				<label>Mô tả:</label>
-				<textarea class="form-control" rows="5" name="infoCategory" id="infoCategory"></textarea>
-			</div>
-      	</div>
-      	<div class="modal-footer">
-      		<button type="button" class="btn btn-info btn-sm" data-dismiss="modal"><span class="icon icon-edit"></span> Chỉnh sửa</button>
-        	<button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="icon icon-remove"></span> Close</button>
-      	</div>
-    </div>
-  	</div>
-</div>
+<form action="" method="POST" accept-charset="utf-8" id="formEditCategory">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
+	<input type="hidden" name="_method" value="POST">
+	<div id="modalEditCategory" class="modal fade" role="dialog">
+	  	<div class="modal-dialog">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        	<h4 class="modal-title"><span class="icon icon-edit"></span> Chỉnh sửa</h4>
+	      	</div>
+	      	<div class="modal-body">
+	      		<input type="text" hidden name="idCategory" id="idCategory">
+	        	<div class="form-group">
+					<label>Tiêu đề <span style="color: red">*</span></label>
+					<input type="text" name="titleCategory" class="form-control" id="titleCategory">
+				</div>
+				<div class="form-group">
+					<label>Mô tả:</label>
+					<textarea class="form-control" rows="5" name="infoCategory" id="infoCategory"></textarea>
+				</div>
+	      	</div>
+	      	<div class="modal-footer">
+	      		<button type="button" class="btn btn-info btn-sm" data-dismiss="modal" id="editCategory"><span class="icon icon-edit"></span> Chỉnh sửa</button>
+	        	<button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="icon icon-remove"></span> Close</button>
+	      	</div>
+	    </div>
+	  	</div>
+	</div>
+</form>
 <!-- Modal edit category - end -->
 <script>
 	$(document).ready(function(){
@@ -119,22 +123,24 @@
 	            "search"		: "Tìm kiếm:"
 		    },
 			drawCallback: function(){
+				//Check stt
                 $("#categoryTable tbody td span.stt").each(function(index){
                     $(this).html(index+1);
                 });
+
+                //Show modal edit category
+				$('.showModal').click(function(){
+					var category_new_id = $(this).data('id');
+					var category_name 	= $(this).data('name');
+					var category_info 	= $(this).data('info');
+					$('.modal-body #idCategory').val(category_new_id);
+					$('.modal-body #titleCategory').val(category_name);
+					$('.modal-body #infoCategory').val(category_info);
+				});
             }
 		});
 
-		//Show modal edit category
-		$('.showModal').click(function(){
-			var category_new_id = $(this).data('id');
-			var category_name 	= $(this).data('name');
-			var category_info 	= $(this).data('info');
-			$('.modal-body #idCategory').val(category_new_id);
-			$('.modal-body #titleCategory').val(category_name);
-			$('.modal-body #infoCategory').val(category_info);
-		});
-
+		
 		//Validate form add category
 		$('#formAddCategory').validate({
 			rules: {
@@ -157,22 +163,67 @@
 			}
 		});
 
+		//Validate form edit category
+		$('#formEditCategory').validate({
+			rules: {
+				titleCategory: {
+					required 	: true,
+					maxlength 	: 50,
+				},
+				infoCategory: {
+					maxlength 	: 100,
+				}
+			},
+			messages: {
+				titleCategory: {
+					required	: "<span style='color: red'>Không được để trống</span>",
+					maxlength	: "<span style='color: red'>Không vượt quá 50 ký tự</span>",
+				},
+				infoCategory: {
+					maxlength	: "<span style='color: red'>Không vượt quá 100 ký tự</span>",
+				}
+			}
+		});
+
 		//Add category
 		$('#addCategory').click(function(){
-			var $form = $("#formAddCategory");
+			var form = $("#formAddCategory");
 			var data = $("#formAddCategory").serialize();
-			if(! $form.valid()) return false;
+			if(! form.valid()) return false;
 			$.ajax({
 				type: "POST",
 				url: "/manager/posts/add-category",
 				data: data,
 				success: function(result){
 					console.log(result);
+					if(result[0]['information'] == null){
+						result[0]['information'] = '';
+					}
+					var html = 
+					"<tr>"
+					+"	<td align='center'><input type='checkbox' attrCategoryId='"+result[0]['category_new_id']+"' attrCategoryName='"+result[0]['name']+"' name='checkboxCategory[]'></td>"
+					+"	<td align='center'><span class='stt'></span></td>"
+					+"	<td><a href='' class='showModal' data-id='"+result[0]['category_new_id']+"' data-name='"+result[0]['name']+"' data-info='"+result[0]['information']+"' data-toggle='modal' data-target='#modalEditCategory' style='color: #428bca;'>"+result[0]['name']+"</a></td>"
+					+"	<td>"+result[0]['information']+"</td>"
+					+"	<td><button attrCategoryId='"+result[0]['category_new_id']+"' attrCategoryName='"+result[0]['name']+"' type='button' class='btn btn-default btn-xs btn-block deleteCategory'><span class='icon-trash'></span> Xóa</button></td>"
+					+"</tr>";
+					$('#categoryTable').DataTable().row.add($(html)).draw();
+					$('#title').val('');
+					$('#information').val('');
+					toastr.success('Thêm thành công');
 				},
 				error: function(result){
 					console.log(result);
 				}
 			});
+		});
+
+		//Edit category
+		$('#editCategory').click(function(){
+			var form = $("#formEditCategory");
+			if(! form.valid()) return false;
+			var data = $("#formEditCategory").serialize();
+			
 		});
 
 	});
