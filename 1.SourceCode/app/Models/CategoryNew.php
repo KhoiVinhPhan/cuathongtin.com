@@ -15,6 +15,7 @@ class CategoryNew extends Model
     
     protected $fillable = [
         'name', 
+        'information', 
         'user_id_maked',
         'user_id_deleted',
         'user_id_updated',

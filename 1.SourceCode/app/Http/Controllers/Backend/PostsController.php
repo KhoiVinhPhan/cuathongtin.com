@@ -45,4 +45,19 @@ class PostsController extends Controller
         return view('backend.posts.indexCategoryPost', compact('category_news'));
     }
 
+    public function edit($category_new_id)
+    {
+        return view('backend.posts.editCategoryPost');
+    }
+
+    public function addCategory(Request $request)
+    {
+        $input = $request->all();
+        if($result = $this->categoryPostService->addCategory($input)){
+           return $result;
+        }else{
+            echo "error";exit;
+        }
+    }
+
 }

@@ -16,6 +16,7 @@ class CreateCategoryNewsTable extends Migration
         Schema::create('category_news', function (Blueprint $table) {
             $table->increments('category_new_id');
             $table->string('name');
+            $table->string('information')->nullable();
             $table->integer('user_id_maked')->nullable();
             $table->integer('user_id_deleted')->nullable();
             $table->integer('user_id_updated')->nullable();

@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::get('posts/create', 'PostsController@create')->name('createPosts');
     Route::post('posts/add-category-post', 'PostsController@addCategoryPost')->name('addCategoryPost');
     Route::get('posts/category-post', 'PostsController@categoryPost')->name('categoryPost');
+    Route::post('posts/add-category', 'PostsController@addCategory')->name('addCategory');
 });
 
 
