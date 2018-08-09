@@ -219,11 +219,21 @@
 		});
 
 		//Edit category
-		$('#editCategory').click(function(){
-			var form = $("#formEditCategory");
-			if(! form.valid()) return false;
-			var data = $("#formEditCategory").serialize();
+		// $('#editCategory').click(function(){
+		// 	var form = $("#formEditCategory");
+		// 	if(! form.valid()) return false;
+		// 	var data = $("#formEditCategory").serialize();
+		// 	$('#categoryTable tbody tr td').append('ádfsf');
+		// });
+
+		$('#categoryTable tbody').on('click', '.showModal', function(){
 			
+			$('#editCategory').click(function(){
+				var form = $("#formEditCategory");
+				if(! form.valid()) return false;
+				var data = $("#formEditCategory").serialize();
+				$('#categoryTable').DataTable().row($(this).closest('tr')).remove().draw();
+			});
 		});
 
 	});
