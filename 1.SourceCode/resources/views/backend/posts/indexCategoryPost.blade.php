@@ -226,24 +226,31 @@
 		// 	$('#categoryTable tbody tr td').append('ádfsf');
 		// });
 
-		// $('#categoryTable tbody').on('click', '.showModal', function(){
-			
-		// 	$('#editCategory').click(function(){
-		// 		// alert('a');
-		// 		var form = $("#formEditCategory");
-		// 		if(! form.valid()) return false;
-		// 		var data = $("#formEditCategory").serialize();
-		// 		$('#categoryTable').DataTable().row($(this).closest('tr')).remove().draw();
-		// 	});
-		// });
+		$('#categoryTable tbody').on('click', '.showModal', function(){
+			// $('#categoryTable').DataTable().row($(this).closest('tr')).remove().draw();
 
-		$('#categoryTable').on( 'click', 'tbody tr', function () {
-		    $('#categoryTable').DataTable().row( $(this) ).edit();
-		    // alert('a');
-		} );
+		});
+
+		$('#editCategory').click(function(){
+			// alert('a');
+			var form = $("#formEditCategory");
+			if(! form.valid()) return false;
+			var data = $("#formEditCategory").serialize();
+
+			alert($('#ggg'));
+			
+			// $('#categoryTable').DataTable().row($('#ggg')).remove().draw();
+		});
+
+		// $('#categoryTable').on( 'click', 'tbody tr', function () {
+		//     $('#categoryTable').DataTable().row( $(this) ).edit();
+		//     // alert('a');
+		// } );
 
 	});
-
+	function show(i){
+		$("#abc".i)
+	}
 	
 </script>
 @endsection
