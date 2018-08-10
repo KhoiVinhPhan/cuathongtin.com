@@ -42,4 +42,51 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 			return false;
 		}
 	}
+
+	public function editCategory($input)
+	{
+		DB::beginTransaction();
+		try{
+			DB::table('category_news')
+				->where('category_new_id', $input['idCategory'])
+				->update([
+					'name' 				=> $input['titleCategory'],
+					'information' 		=> $input['infoCategory'],
+					'user_id_updated' 	=> Auth::user()->user_id,
+				]);
+			DB::commit();
+			return true;
+		}catch(\Exception $e){
+			DB::rollback();
+			return false;
+		}
+	}
+
+	public function deleteCategory($input)
+	{
+		DB::beginTransaction();
+		try{
+			CategoryNew::find($input['data']['category_new_id'])->delete();
+			DB::commit();
+			return true;
+		}catch(\Exception $e){
+			DB::rollback();
+			return false;
+		}
+	}
+
+	public function deleteMutiCategory($input)
+	{
+		DB::beginTransaction();
+		try{
+			$input['data']['category_new_id'] = rtrim($input['data']['category_new_id'], ',');
+			$array_id_category = explode(',', $input['data']['category_new_id']);
+			CategoryNew::whereIn("category_new_id",$array_id_category)->delete(); 
+			DB::commit();
+			return true;
+		}catch(\Exception $e){
+			DB::rollback();
+			return false;
+		}
+	}
 }

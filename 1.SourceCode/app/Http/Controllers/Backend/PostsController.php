@@ -60,4 +60,34 @@ class PostsController extends Controller
         }
     }
 
+    public function editCategory(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->editCategory($input)){
+           return "success";exit;
+        }else{
+            echo "error";exit;
+        }
+    }
+
+    public function deleteCategory(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->deleteCategory($input)){
+           return "success";exit;
+        }else{
+            echo "error";exit;
+        }
+    }
+
+    public function deleteMutiCategory(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->deleteMutiCategory($input)){
+           return "success";exit;
+        }else{
+            echo "error";exit;
+        }
+    }
+
 }

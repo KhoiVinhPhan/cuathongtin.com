@@ -24,7 +24,7 @@
 				<table class="table table-bordered" id="categoryTable">
 				    <thead>
 				      	<tr>
-				      		<th style="width:5%"><input type="checkbox" id="select_all_banner"></th>
+				      		<th style="width:5%"><input type="checkbox" id="select_all_category"></th>
 					        <th style="width:5%">STT</th>
 					        <th style="width:30%">Tên</th>
 					        <th style="width:45%">Mô tả</th>
@@ -38,8 +38,8 @@
 			    			<tr>
 			    				<td align="center"><input type="checkbox" attrCategoryId="{{ $item->category_new_id }}" attrCategoryName="{{ $item->name }}" name="checkboxCategory[]"></td>
 					        	<td align="center"><span class="stt">{{ $i }}</span></td>
-					        	<td><a href="" class="showModal" data-id="{{ $item->category_new_id }}" data-name="{{ $item->name }}" data-info="{{ $item->information }}" data-toggle="modal" data-target="#modalEditCategory" style="color: #428bca;">{{ $item->name }}</a></td>
-					        	<td>{{ $item->information }}</td>
+					        	<td><a href="" class="showModal" id="<?php echo "title".$item->category_new_id; ?>" data-id="{{ $item->category_new_id }}" data-name="{{ $item->name }}" data-info="{{ $item->information }}" data-toggle="modal" data-target="#modalEditCategory" style="color: #428bca;">{{ $item->name }}</a></td>
+					        	<td><span id="<?php echo "info".$item->category_new_id; ?>">{{ $item->information }}</span></td>
 					        	<td><button attrCategoryId="{{ $item->category_new_id }}" attrCategoryName="{{ $item->name }}" type="button" class="btn btn-default btn-xs btn-block deleteCategory"><span class="icon-trash"></span> Xóa</button></td>
 					      	</tr>
 					    @endforeach
@@ -87,20 +87,67 @@
 	$(document).ready(function(){
 		// Find and remove selected table rows with checkbox
 		$('.delete-row').click(function(){
+			var stringId = '';
+			var stringName = '';
 			$('#categoryTable tbody').find('input[name="checkboxCategory[]"]').each(function(){
 				var category_new_id = $(this).attr("attrCategoryId");
 				var category_name 	= $(this).attr("attrCategoryName");
 				if($(this).is(":checked")){
-					$('#categoryTable').DataTable().row($(this).parents("tr")).remove().draw();
-                }
+					stringId = stringId+category_new_id+',';
+					stringName = stringName+category_name+',';
+				}
+				data = {
+					category_new_id : stringId,
+					category_name 	: stringName,
+				};
 			});
+			if(confirm("Bạn có chắc chắn muốn xóa")){
+				$.ajax({
+					type: "POST",
+					url: "/manager/posts/delete-muti-category",
+					data: {'data': data, '_token': '{{  csrf_token() }}'},
+					success: function(result){
+						console.log(result);
+						$('#categoryTable tbody').find('input[name="checkboxCategory[]"]').each(function(){
+							if($(this).is(":checked")){
+								$('#categoryTable').DataTable().row($(this).parents("tr")).remove().draw();
+							}
+		                });
+		                toastr.success('Xóa thành công');
+					},
+					error: function(result){
+						console.log(result);
+						toastr.error('Lỗi hệ thống khi thực hiện');	
+					}
+				});
+			}
 		});
 
 		//Delete select choice button
 		$('#categoryTable tbody').on('click', '.deleteCategory', function(){
 			var category_new_id = $(this).attr("attrCategoryId");
 			var category_name 	= $(this).attr("attrCategoryName");
-			$('#categoryTable').DataTable().row($(this).closest('tr')).remove().draw();
+			var isThis = $(this);
+			data = {
+				category_new_id : category_new_id,
+				category_name 	: category_name,
+			};
+
+			$.ajax({
+				type: "POST",
+				url: "/manager/posts/delete-category",
+				data: {'data': data, '_token': '{{ csrf_token() }}' },
+				success: function(result){
+					console.log(result);
+					$('#categoryTable').DataTable().row(isThis.closest('tr')).remove().draw();
+					toastr.success('Xóa thành công');
+				},
+				error: function(result){
+					console.log(result);
+					toastr.error('Lỗi hệ thống khi thực hiện');
+				}
+			});
+			
 		});
 
 		//Format datatable
@@ -130,9 +177,9 @@
 
                 //Show modal edit category
 				$('.showModal').click(function(){
-					var category_new_id = $(this).data('id');
-					var category_name 	= $(this).data('name');
-					var category_info 	= $(this).data('info');
+					var category_new_id = $(this).attr('data-id');
+					var category_name 	= $(this).attr('data-name');
+					var category_info 	= $(this).attr('data-info');
 					$('.modal-body #idCategory').val(category_new_id);
 					$('.modal-body #titleCategory').val(category_name);
 					$('.modal-body #infoCategory').val(category_info);
@@ -203,8 +250,8 @@
 					"<tr>"
 					+"	<td align='center'><input type='checkbox' attrCategoryId='"+result[0]['category_new_id']+"' attrCategoryName='"+result[0]['name']+"' name='checkboxCategory[]'></td>"
 					+"	<td align='center'><span class='stt'></span></td>"
-					+"	<td><a href='' class='showModal' data-id='"+result[0]['category_new_id']+"' data-name='"+result[0]['name']+"' data-info='"+result[0]['information']+"' data-toggle='modal' data-target='#modalEditCategory' style='color: #428bca;'>"+result[0]['name']+"</a></td>"
-					+"	<td>"+result[0]['information']+"</td>"
+					+"	<td><a href='' class='showModal' id='title"+result[0]['category_new_id']+"' data-id='"+result[0]['category_new_id']+"' data-name='"+result[0]['name']+"' data-info='"+result[0]['information']+"' data-toggle='modal' data-target='#modalEditCategory' style='color: #428bca;'>"+result[0]['name']+"</a></td>"
+					+"	<td><span id='info"+result[0]['category_new_id']+"'>"+result[0]['information']+"</span></td>"
 					+"	<td><button attrCategoryId='"+result[0]['category_new_id']+"' attrCategoryName='"+result[0]['name']+"' type='button' class='btn btn-default btn-xs btn-block deleteCategory'><span class='icon-trash'></span> Xóa</button></td>"
 					+"</tr>";
 					$('#categoryTable').DataTable().row.add($(html)).draw();
@@ -219,38 +266,47 @@
 		});
 
 		//Edit category
-		// $('#editCategory').click(function(){
-		// 	var form = $("#formEditCategory");
-		// 	if(! form.valid()) return false;
-		// 	var data = $("#formEditCategory").serialize();
-		// 	$('#categoryTable tbody tr td').append('ádfsf');
-		// });
-
-		$('#categoryTable tbody').on('click', '.showModal', function(){
-			// $('#categoryTable').DataTable().row($(this).closest('tr')).remove().draw();
-
-		});
-
 		$('#editCategory').click(function(){
-			// alert('a');
+			var category_new_id 	= $('#idCategory').val();
+			var category_new_name 	= $('#titleCategory').val();
+			var category_new_info 	= $('#infoCategory').val();
+			//Validate form
 			var form = $("#formEditCategory");
 			if(! form.valid()) return false;
+			//Data form
 			var data = $("#formEditCategory").serialize();
 
-			alert($('#ggg'));
-			
-			// $('#categoryTable').DataTable().row($('#ggg')).remove().draw();
+			$.ajax({
+				type: "POST",
+				url: "/manager/posts/edit-category",
+				data: data,
+				success: function(result){
+					console.log(result);
+					$('#title'+category_new_id).html('');
+					$('#info'+category_new_id).html('');
+					//Append data
+					$('#title'+category_new_id).append(category_new_name);
+					$('#info'+category_new_id).append(category_new_info);
+					$('#title'+category_new_id).attr('data-name', category_new_name);
+					$('#title'+category_new_id).attr('data-info', category_new_info);
+					//Nofication
+					toastr.success('Chỉnh sửa thành công');
+				},
+				error: function(result){
+					console.log(result);
+					toastr.error('Lỗi hệ thống khi lưu');
+				}
+			});
 		});
 
-		// $('#categoryTable').on( 'click', 'tbody tr', function () {
-		//     $('#categoryTable').DataTable().row( $(this) ).edit();
-		//     // alert('a');
-		// } );
+
+		//Check box all
+		$("#select_all_category").change(function(){
+			var checkboxes = $(this).closest('form').find(':checkbox');
+    		checkboxes.prop('checked', $(this).is(':checked'));
+		});
 
 	});
-	function show(i){
-		$("#abc".i)
-	}
 	
 </script>
 @endsection
