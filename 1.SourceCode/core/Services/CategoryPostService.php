@@ -31,11 +31,6 @@ class CategoryPostService implements CategoryPostServiceContract
     public function editCategory($input)
     {
          return $this->categorypostRepository->editCategory($input);
-    } 
-
-    public function deleteCategory($input)
-    {
-         return $this->categorypostRepository->deleteCategory($input);
     }
 
     public function deleteMutiCategory($input)

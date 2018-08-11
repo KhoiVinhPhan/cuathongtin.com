@@ -17,13 +17,16 @@
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Chức năng</div>
 			  	<div class="panel-body">
-			  		<button type="button" class="btn btn-success btn-sm">Đăng bài viết</button>
-			  		<button type="button" class="btn btn-default btn-sm">Lưu nháp</button>
+			  		<p><span class="icon-user"></span> Người đăng: {{ Auth::user()->name }}</p>
+			  	</div>
+			  	<div class="panel-footer">
+			  		<button type="button" class="btn btn-success btn-sm"><span class="icon icon-plus"></span> Đăng bài viết</button>
+			  		<button type="button" class="btn btn-default btn-sm"><span class="icon-save"></span> Lưu nháp</button>
 			  	</div>
 			</div>
 
 			<div class="panel panel-default">
-			  	<div class="panel-heading"><span class="icon-list-ul"></span> Chuyên mục</div>
+			  	<div class="panel-heading"><span class="icon-list-ul"></span> <a href="{{ route('categoryPost') }}" title="Chuyên mục bài viết">Chuyên mục</a></div>
 			  	<div class="panel-body">
 			  		@foreach($category_news as $item)
 			  			<div id="listCategory"></div>
@@ -44,6 +47,13 @@
 					  	<div class="error-category"></div>
 					</div>
 			  	</div>
+			</div>
+
+			<div>
+				<p><span class="icon icon-picture"></span> Ảnh đại diện</p>
+				<img src="{{ asset('image_user/no_image.png') }}" alt="" width="100%" height="auto" id="imgImageTitle">
+				<button type="button" class="btn btn-info btn-block btn-sm" id="choice_image">Chọn ảnh</button>
+				<input type="hidden" class="form-control" name="path_to_image" id="path_to_image">
 			</div>
 
 		</div>
@@ -67,12 +77,40 @@
 </script>
 <!-- END CKEDITOR -->
 <script>
-	//Show hide category
 	$(document).ready(function(){
+		//Show hide category
 		$('#addCategory').click(function(){
 			$('#inputCategory').toggle();;
 		});
+
+		//Choice image
+		$("#choice_image").click(function(){
+			selectFileWithCKFinder( 'path_to_image' );
+		});
 	});
+
+	//Function choice image
+	function selectFileWithCKFinder( elementId ) {
+		CKFinder.modal( {
+			chooseFiles: true,
+			width: 1000,
+			height: 600,
+			onInit: function( finder ) {
+				finder.on( 'files:choose', function( evt ) {
+					var file = evt.data.files.first();
+					var output = document.getElementById( elementId );
+					output.value = file.getUrl();
+					$("#imgImageTitle").attr('src',$("#path_to_image").val());
+				} );
+
+				finder.on( 'file:choose:resizedImage', function( evt ) {
+					var output = document.getElementById( elementId );
+					output.value = evt.data.resizedUrl;
+					$("#imgImageTitle").attr('src',$("#path_to_image").val());
+				} );
+			}
+		} );
+	}
 
 	//Add category post
 	function addCategory(){

@@ -70,16 +70,6 @@ class PostsController extends Controller
         }
     }
 
-    public function deleteCategory(Request $request)
-    {
-        $input = $request->all();
-        if($this->categoryPostService->deleteCategory($input)){
-           return "success";exit;
-        }else{
-            echo "error";exit;
-        }
-    }
-
     public function deleteMutiCategory(Request $request)
     {
         $input = $request->all();

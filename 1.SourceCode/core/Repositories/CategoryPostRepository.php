@@ -62,19 +62,6 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 		}
 	}
 
-	public function deleteCategory($input)
-	{
-		DB::beginTransaction();
-		try{
-			CategoryNew::find($input['data']['category_new_id'])->delete();
-			DB::commit();
-			return true;
-		}catch(\Exception $e){
-			DB::rollback();
-			return false;
-		}
-	}
-
 	public function deleteMutiCategory($input)
 	{
 		DB::beginTransaction();
