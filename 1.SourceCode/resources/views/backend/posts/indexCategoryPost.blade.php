@@ -9,18 +9,18 @@
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Tiêu đề <span style="color: red">*</span></label>
-					<input type="text" name="title" id="title" class="form-control">
+					<input type="text" name="title" id="title" class="form-control" placeholder="Nội dung cho tab cha cho bài viết">
 				</div>
 				<div class="form-group">
 					<label>Mô tả:</label>
-					<textarea class="form-control"  name="information" id="information" rows="5"></textarea>
+					<textarea placeholder="Mô tả chi tiết nội dung của chuyên mục" class="form-control"  name="information" id="information" rows="5"></textarea>
 				</div>
 				<div class="form-group">
 					<button type="button" class="btn btn-success btn-sm pull-right" id="addCategory"><span class="icon icon-plus"></span> Thêm mới</button>
 				</div>
 			</div>
 			<div class="col-sm-8">
-				<button type="button" class="btn btn-danger btn-sm delete-row"><span class="icon icon-trash"></span> Xóa chọn</button>
+				<button disabled="" type="button" class="btn btn-danger btn-sm delete-row"><span class="icon icon-trash"></span> Xóa chọn</button>
 				<table class="table table-bordered" id="categoryTable">
 				    <thead>
 				      	<tr>
@@ -36,7 +36,7 @@
 						@foreach($category_news as $item)
 							@php($i++)
 			    			<tr>
-			    				<td align="center"><input type="checkbox" attrCategoryId="{{ $item->category_new_id }}" attrCategoryName="{{ $item->name }}" name="checkboxCategory[]"></td>
+			    				<td align="center"><input class="myClass" type="checkbox" attrCategoryId="{{ $item->category_new_id }}" attrCategoryName="{{ $item->name }}" name="checkboxCategory[]"></td>
 					        	<td align="center"><span class="stt">{{ $i }}</span></td>
 					        	<td><a href="" class="showModal" id="<?php echo "title".$item->category_new_id; ?>" data-id="{{ $item->category_new_id }}" data-name="{{ $item->name }}" data-info="{{ $item->information }}" data-toggle="modal" data-target="#modalEditCategory" style="color: #428bca;">{{ $item->name }}</a></td>
 					        	<td><span id="<?php echo "info".$item->category_new_id; ?>">{{ $item->information }}</span></td>
@@ -61,7 +61,7 @@
 	    <div class="modal-content">
 	      	<div class="modal-header">
 	        	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	        	<h4 class="modal-title"><span class="icon icon-edit"></span> Chỉnh sửa</h4>
+	        	<h4 class="modal-title"><span class="icon icon-edit"></span> Chỉnh sửa bài viết</h4>
 	      	</div>
 	      	<div class="modal-body">
 	      		<input type="text" hidden name="idCategory" id="idCategory">
@@ -76,7 +76,7 @@
 	      	</div>
 	      	<div class="modal-footer">
 	      		<button type="button" class="btn btn-info btn-sm" data-dismiss="modal" id="editCategory"><span class="icon icon-edit"></span> Chỉnh sửa</button>
-	        	<button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="icon icon-remove"></span> Close</button>
+	        	<button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="icon icon-remove"></span> Đóng</button>
 	      	</div>
 	    </div>
 	  	</div>
@@ -101,7 +101,7 @@
 					category_name 	: stringName,
 				};
 			});
-			if(confirm("Bạn có chắc chắn muốn xóa")){
+			if(confirm("Bạn có chắc chắn muốn xóa?")){
 				$.ajax({
 					type: "POST",
 					url: "/manager/posts/delete-muti-category",
@@ -132,26 +132,27 @@
 				category_new_id : category_new_id,
 				category_name 	: category_name,
 			};
-
-			$.ajax({
-				type: "POST",
-				url: "/manager/posts/delete-category",
-				data: {'data': data, '_token': '{{ csrf_token() }}' },
-				success: function(result){
-					console.log(result);
-					$('#categoryTable').DataTable().row(isThis.closest('tr')).remove().draw();
-					toastr.success('Xóa thành công');
-				},
-				error: function(result){
-					console.log(result);
-					toastr.error('Lỗi hệ thống khi thực hiện');
-				}
-			});
-			
+			if(confirm("Bạn có chắc chắn muốn xóa?")){
+				$.ajax({
+					type: "POST",
+					url: "/manager/posts/delete-category",
+					data: {'data': data, '_token': '{{ csrf_token() }}' },
+					success: function(result){
+						console.log(result);
+						$('#categoryTable').DataTable().row(isThis.closest('tr')).remove().draw();
+						toastr.success('Xóa thành công');
+					},
+					error: function(result){
+						console.log(result);
+						toastr.error('Lỗi hệ thống khi thực hiện');
+					}
+				});
+			}
 		});
 
 		//Format datatable
 		$('#categoryTable').DataTable({
+			// "pagingType": "full_numbers",
 			"searching"		: true,
 			"lengthChange"	: true,
 			"bInfo"			: true,
@@ -186,8 +187,7 @@
 				});
             }
 		});
-
-		
+	
 		//Validate form add category
 		$('#formAddCategory').validate({
 			rules: {
@@ -257,6 +257,7 @@
 					$('#categoryTable').DataTable().row.add($(html)).draw();
 					$('#title').val('');
 					$('#information').val('');
+					$("#categoryTable").DataTable().page('last').draw('page');
 					toastr.success('Thêm thành công');
 				},
 				error: function(result){
@@ -299,13 +300,40 @@
 			});
 		});
 
-
 		//Check box all
 		$("#select_all_category").change(function(){
 			var checkboxes = $(this).closest('form').find(':checkbox');
     		checkboxes.prop('checked', $(this).is(':checked'));
+    		var dem = 0;
+			$('#categoryTable tbody').find('input[name="checkboxCategory[]"]').each(function(){
+				if($(this).is(":checked")){
+					dem++;
+				}
+            });
+
+            if(dem>0){
+            	$('.delete-row').removeAttr('disabled');
+            }else{
+            	$('.delete-row').attr('disabled', '');
+            }
 		});
 
+		//Show/hide button delete all
+		$('.myClass').change(function(){
+			var dem = 0;
+			$('#categoryTable tbody').find('input[name="checkboxCategory[]"]').each(function(){
+				if($(this).is(":checked")){
+					dem++;
+				}
+            });
+            if(dem>0){
+            	$('.delete-row').removeAttr('disabled');
+            	$('#select_all_category').attr('checked', '');
+            }else{
+            	$('.delete-row').attr('disabled', '');
+            	$('#select_all_category').removeAttr('checked');
+            }
+		});
 	});
 	
 </script>

@@ -39,6 +39,51 @@
 	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 	<script src="{{ asset('ckfinder/ckfinder.js') }}"></script>
 </head>
+<style>
+	/*START STYLE DATA-TABLE*/
+	.dataTables_wrapper .dataTables_paginate {
+	  	float: right;
+	  	text-align: right;
+	  	padding-top: 0.25em;
+	}
+	.dataTables_wrapper .dataTables_paginate .paginate_button {
+	  	box-sizing: border-box;
+	  	display: inline-block;
+	  	min-width: 1.5em;
+	  	padding: 0.5em 1em;
+	  	margin-left: 2px;
+	  	text-align: center;
+	  	text-decoration: none !important;
+	  	cursor: pointer;
+	  	*cursor: hand;
+	  	color: #333333 !important;
+	  	border: 1px solid transparent;
+	}
+	.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+	  	color: #333333 !important;
+	  	background-color: white;
+	  	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, gainsboro));
+	  	/* Chrome,Safari4+ */
+	    background: -webkit-linear-gradient(top, white 0%, gainsboro 100%);
+	  	/* Chrome10+,Safari5.1+ */
+        background: -moz-linear-gradient(top, white 0%, gainsboro 100%);
+	    /* FF3.6+ */
+	    background: -ms-linear-gradient(top, white 0%, gainsboro 100%);
+	    /* IE10+ */
+	    background: -o-linear-gradient(top, white 0%, gainsboro 100%);
+	    /* Opera 11.10+ */
+	    background: linear-gradient(to bottom, white 0%, gainsboro 100%);
+	    /* W3C */
+	}
+	.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+		cursor: default;
+		color: #666 !important;
+		border: 1px solid transparent;
+		background: transparent;
+		box-shadow: none;
+	}
+	/*END STYLE DATA-TABLE*/
+</style>
 <body>
 
 <!--Header-part-->
