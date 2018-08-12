@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::post('posts/add-category', 'PostsController@addCategory')->name('addCategory');
     Route::post('posts/edit-category', 'PostsController@editCategory')->name('editCategory');
     Route::post('posts/delete-muti-category', 'PostsController@deleteMutiCategory')->name('deleteMutiCategory');
+    Route::post('posts/store', 'PostsController@store')->name('storePosts');
 });
 
 

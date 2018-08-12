@@ -9,4 +9,5 @@ interface CategoryPostRepositoryContract
 	public function addCategory($input);
 	public function editCategory($input);
 	public function deleteMutiCategory($input);
+	public function store($input);
 }

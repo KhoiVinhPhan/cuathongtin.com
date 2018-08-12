@@ -38,4 +38,9 @@ class CategoryPostService implements CategoryPostServiceContract
          return $this->categorypostRepository->deleteMutiCategory($input);
     }
 
+    public function store($input)
+    {
+         return $this->categorypostRepository->store($input);
+    }
+
 }

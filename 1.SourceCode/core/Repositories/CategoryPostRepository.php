@@ -76,4 +76,18 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 			return false;
 		}
 	}
+
+	public function store($input)
+	{
+		switch($input['save']) {
+			//save
+		    case 'save': 
+		        echo "1";exit;
+		    break;
+		    //save-draft
+		    case 'save-draft': 
+		        echo "2";exit;
+		    break;
+		}
+	}
 }

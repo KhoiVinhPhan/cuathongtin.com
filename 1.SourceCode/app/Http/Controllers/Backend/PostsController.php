@@ -80,4 +80,14 @@ class PostsController extends Controller
         }
     }
 
+    public function store(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->store($input)){
+            
+        }else{
+
+        }
+    }
+
 }

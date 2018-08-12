@@ -305,6 +305,5 @@
             }
 		});
 	});
-	
 </script>
 @endsection

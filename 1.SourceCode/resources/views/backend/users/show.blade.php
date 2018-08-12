@@ -10,8 +10,8 @@
 	  	<div class="panel-heading">Danh sách user </div>
 	  	<div class="panel-body">
 	  		<a href="{{ route('createUser') }}" title="Thêm mới"><button type="button" class="btn btn-success btn-sm"><span class="icon-plus"></span> Thêm mới</button></a>
-			<button type="submit" class="btn btn-danger btn-sm">Xóa nhiều</button>
-	  		<table class="table table-bordered" id="table">
+			<button disabled="" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" type="submit" class="btn btn-danger btn-sm delete-row"><span class="icon icon-trash"></span> Xóa</button>
+	  		<table class="table table-bordered" id="tableShowUser">
 			    <thead>
 			      	<tr>
 			      		<th><input type="checkbox" id="select_all_user"></th>
@@ -28,7 +28,7 @@
 			    		@php($i++)
 			    			<tr>
 			    				<td align="center">
-			    					<input type="checkbox" value="{{ $item->user_id }}" name="checkboxUser[]">
+			    					<input class="checkBox" type="checkbox" value="{{ $item->user_id }}" name="checkboxUser[]">
 			    				</td>
 					        	<td align="center">{{$i}}</td>
 					        	<td style="font-weight: bold; color: #27A9E3" onclick="show(<?php echo $item->user_id; ?>)" id="<?php echo "hide".$item->user_id ?>">{{$item->name}}<span class="pull-right icon-fullscreen"></span></td>
@@ -179,9 +179,39 @@
 	}
 
 	$(document).ready(function() {
+		//Check box all
 		$("#select_all_user").change(function(){
 			var checkboxes = $(this).closest('form').find(':checkbox');
     		checkboxes.prop('checked', $(this).is(':checked'));
+    		var dem = 0;
+			$('#tableShowUser tbody').find('input[name="checkboxUser[]"]').each(function(){
+				if($(this).is(":checked")){
+					dem++;
+				}
+            });
+
+            if(dem>0){
+            	$('.delete-row').removeAttr('disabled');
+            }else{
+            	$('.delete-row').attr('disabled', '');
+            }
+		});
+
+		//Show-hide button delete all
+		$('.checkBox').change(function(){
+			var dem = 0;
+			$('#tableShowUser tbody').find('input[name="checkboxUser[]"]').each(function(){
+				if($(this).is(":checked")){
+					dem++;
+				}
+            });
+            if(dem>0){
+            	$('.delete-row').removeAttr('disabled');
+            	$('#select_all_user').attr('checked', '');
+            }else{
+            	$('.delete-row').attr('disabled', '');
+            	$('#select_all_user').removeAttr('checked');
+            }
 		});
 	});
 </script>	
