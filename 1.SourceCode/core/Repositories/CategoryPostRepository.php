@@ -4,6 +4,7 @@ namespace Core\Repositories;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use App\Models\CategoryNew;
+use App\Models\Posts;
 
 class CategoryPostRepository implements CategoryPostRepositoryContract
 {
@@ -79,15 +80,38 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 
 	public function store($input)
 	{
-		switch($input['save']) {
-			//save
-		    case 'save': 
-		        echo "1";exit;
-		    break;
-		    //save-draft
-		    case 'save-draft': 
-		        echo "2";exit;
-		    break;
+		DB::beginTransaction();
+		try{
+			//Check status
+			if($input['save'] == 'save'){
+				$status = 1;
+			}
+			if($input['save'] == 'save-draft'){
+				$status = 2;
+			}
+
+			//Check category post
+			if(!empty($input['category'])){
+				$category_post_id = implode(',' ,$input['category']);
+			}else{
+				$category_post_id = '';
+			}
+			
+			$data = array(
+				'title' 			=> $input['title'],
+				'content' 			=> $input['content'],
+				'status' 			=> $status,
+				'path_to_image' 	=> $input['path_to_image'],
+				'category_post_id' 	=> $category_post_id,
+				'user_id_maked' 	=> Auth::user()->user_id
+			);
+			Posts::create($data);
+			DB::commit();
+			return true;
+		}catch(\Exception $e){
+			DB::rollback();
+			return false;
 		}
+
 	}
 }

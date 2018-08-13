@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="panel panel-default">
-				  	<div class="panel-heading">Chức năng</div>
+				  	<div class="panel-heading">Thông tin</div>
 				  	<div class="panel-body">
 				  		<p><span class="icon-user"></span> Người đăng: {{ Auth::user()->name }}</p>
 				  	</div>
