@@ -78,16 +78,21 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        if($this->categoryPostService->store($input)){
-            echo "thanhcong";exit;
+        if($post_id = $this->categoryPostService->store($input)){
+            Session::flash('success', 'Tạo thành công');
+            return redirect('manager/posts/'.$post_id.'/edit');
         }else{
-            echo "thatbai";exit;
+            Session::flash('error', 'Tạo không thành công');
+            return redirect()->route('createPosts');
         }
     }
 
     public function edit($post_id)
     {
-        return view('backend.posts.edit');
+        $category_news = $this->categoryPostService->getDataCategoryNew();
+        $dataPost = $this->categoryPostService->getDataPost($post_id);
+        $arrayCategorys = explode(',',$dataPost->category_post_id);
+        return view('backend.posts.edit', compact('category_news', 'dataPost', 'arrayCategorys'));
     }
 
 }

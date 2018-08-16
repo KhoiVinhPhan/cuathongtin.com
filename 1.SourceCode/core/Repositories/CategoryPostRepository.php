@@ -80,9 +80,10 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 
 	public function store($input)
 	{
+
 		DB::beginTransaction();
 		try{
-			//Check status
+			//Check status: (với status = 1: công khai, status = 2: bản nháp)
 			if($input['save'] == 'save'){
 				$status = 1;
 			}
@@ -105,13 +106,24 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 				'category_post_id' 	=> $category_post_id,
 				'user_id_maked' 	=> Auth::user()->user_id
 			);
-			Posts::create($data);
+			$post_id = Posts::create($data)->post_id;
 			DB::commit();
-			return true;
+			return $post_id;
 		}catch(\Exception $e){
 			DB::rollback();
 			return false;
 		}
+	}
 
+	public function getDataPost($post_id)
+	{
+		$data = DB::table('posts')
+			->select('posts.*', 'users.name as nameUserMaked', 'users.email as emailUserMaked')
+			->leftjoin('users', 'users.user_id', '=', 'posts.user_id_maked')
+			->whereNull('posts.deleted_at')
+			->where('posts.post_id', '=', $post_id)
+			->first();
+		return $data;
+		
 	}
 }

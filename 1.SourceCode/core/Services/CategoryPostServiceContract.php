@@ -10,4 +10,5 @@ interface CategoryPostServiceContract
     public function editCategory($input);
     public function deleteMutiCategory($input);
     public function store($input);
+    public function getDataPost($post_id);
 }
