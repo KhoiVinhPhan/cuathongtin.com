@@ -18,9 +18,12 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="panel panel-default">
-				  	<div class="panel-heading">Thông tin</div>
+				  	<div class="panel-heading"><span class="icon-bookmark"></span> Thông tin bài viết</div>
 				  	<div class="panel-body">
 				  		<p><span class="icon-user"></span> Người đăng: {{ Auth::user()->name }}</p>
+				  		<p><span class="icon-calendar"></span> Ngày đăng: {{ date('d-m-Y') }}</p>
+				  		<p><span class="icon-calendar"></span> Ngày cập nhật: {{ date('d-m-Y') }}</p>
+				  		<p><span class="icon-star"></span> Trạng thái: Chưa xác định</p>
 				  	</div>
 				  	<div class="panel-footer">
 				  		<button name="save" id="btnSave" value="save" type="submit" class="btn btn-success btn-sm"><span class="icon icon-plus"></span> Đăng bài viết</button>

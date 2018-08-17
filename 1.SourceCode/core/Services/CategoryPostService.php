@@ -48,4 +48,14 @@ class CategoryPostService implements CategoryPostServiceContract
          return $this->categorypostRepository->getDataPost($post_id);
     }
 
+    public function getDataPostWithUser()
+    {
+         return $this->categorypostRepository->getDataPostWithUser();
+    }
+
+    public function changeStatusPost($input)
+    {
+         return $this->categorypostRepository->changeStatusPost($input);
+    }
+
 }

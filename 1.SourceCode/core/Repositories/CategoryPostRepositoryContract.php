@@ -11,4 +11,6 @@ interface CategoryPostRepositoryContract
 	public function deleteMutiCategory($input);
 	public function store($input);
 	public function getDataPost($post_id);
+	public function getDataPostWithUser();
+	public function changeStatusPost($input);
 }

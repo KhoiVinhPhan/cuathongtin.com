@@ -18,18 +18,21 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="panel panel-default">
-				  	<div class="panel-heading">Thông tin</div>
+				  	<div class="panel-heading"><span class="icon-bookmark"></span> Thông tin bài viết</div>
 				  	<div class="panel-body">
 				  		<p><span class="icon-user"></span> Người đăng: {{ $dataPost->nameUserMaked }}</p>
+				  		<p><span class="icon-calendar"></span> Ngày đăng: {{ date('d-m-Y', strtotime($dataPost->created_at)) }}</p>
+				  		<p><span class="icon-calendar"></span> Ngày cập nhật: {{ date('d-m-Y', strtotime($dataPost->updated_at)) }}</p>
+				  		<p><span class="icon-star"></span> Trạng thái: @if($dataPost->status == 1) <span>Công khai</span> @else <span>Bản nháp</span> @endif</p>
 				  	</div>
 				  	<div class="panel-footer">
-				  		<button name="save" id="btnSave" value="save" type="submit" class="btn btn-success btn-sm"><span class="icon icon-plus"></span> Đăng bài viết</button>
+				  		<button name="save" id="btnSave" value="save" type="submit" class="btn btn-success btn-sm"><span class="icon icon-edit"></span> Chỉnh sửa</button>
 				  		<button name="save" id="btnSaveDraft" value="save-draft" type="submit" class="btn btn-default btn-sm"><span class="icon-save"></span> Lưu nháp</button>
 				  	</div>
 				</div>
 
 				<div class="panel panel-default">
-				  	<div class="panel-heading"><span class="icon-list-ul"></span> <a href="{{ route('categoryPost') }}" title="Chuyên mục bài viết">Chuyên mục</a></div>
+				  	<div class="panel-heading"><span class="icon-list-ul"></span> <a href="{{ route('categoryPost') }}" title="Chuyên mục bài viết"><span style="color: #428bca">Chuyên mục</span></a></div>
 				  	<div class="panel-body">
 				  		@foreach($category_news as $item)
 				  			<div id="listCategory"></div>

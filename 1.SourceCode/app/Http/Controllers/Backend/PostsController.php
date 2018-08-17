@@ -20,7 +20,8 @@ class PostsController extends Controller
 
     public function index()
     {
-        return view('backend.posts.index');
+        $data = $this->categoryPostService->getDataPostWithUser();
+        return view('backend.posts.index', compact('data'));
     }
 
     public function create()
@@ -89,10 +90,25 @@ class PostsController extends Controller
 
     public function edit($post_id)
     {
-        $category_news = $this->categoryPostService->getDataCategoryNew();
-        $dataPost = $this->categoryPostService->getDataPost($post_id);
+        $category_news  = $this->categoryPostService->getDataCategoryNew();
+        $dataPost       = $this->categoryPostService->getDataPost($post_id);
         $arrayCategorys = explode(',',$dataPost->category_post_id);
+
+        //Check login
+        if($dataPost->user_id_maked !== Auth::user()->user_id){        
+            return redirect('/login');
+        }
         return view('backend.posts.edit', compact('category_news', 'dataPost', 'arrayCategorys'));
+    }
+
+    public function changeStatusPost(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->changeStatusPost($input)){
+            echo "success";exit;
+        }else{
+            echo "error";exit;
+        }
     }
 
 }

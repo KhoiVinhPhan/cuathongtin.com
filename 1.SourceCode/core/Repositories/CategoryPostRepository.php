@@ -126,4 +126,25 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 		return $data;
 		
 	}
+
+	public function getDataPostWithUser()
+	{
+		$data = DB::table('posts')
+			->select('posts.*', 'users.name as nameUserMaked', 'users.email as emailUserMaked')
+			->whereNull('posts.deleted_at')
+			->where('posts.user_id_maked', '=',Auth::user()->user_id)
+			->leftjoin('users', 'users.user_id', '=', 'posts.user_id_maked')
+			->get();
+		return $data;
+	}
+
+	public function changeStatusPost($input)
+	{
+		DB::table('posts')
+			->where('post_id', '=', $input['data']['post_id'])
+			->update([
+				'status' => $input['data']['status']
+			]);
+		return true;
+	}
 }
