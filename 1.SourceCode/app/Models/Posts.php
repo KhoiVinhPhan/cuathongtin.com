@@ -17,7 +17,6 @@ class Posts extends Model
         'title', 
         'content', 
         'path_to_image', 
-        'category_post_id', 
         'status', 
         'user_id_maked',
         'user_id_deleted',

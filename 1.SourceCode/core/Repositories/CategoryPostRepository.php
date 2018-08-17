@@ -80,7 +80,6 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 
 	public function store($input)
 	{
-
 		DB::beginTransaction();
 		try{
 			//Check status: (với status = 1: công khai, status = 2: bản nháp)
@@ -91,22 +90,26 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 				$status = 2;
 			}
 
-			//Check category post
-			if(!empty($input['category'])){
-				$category_post_id = implode(',' ,$input['category']);
-			}else{
-				$category_post_id = '';
-			}
-			
+			//Insert table: posts
 			$data = array(
 				'title' 			=> $input['title'],
 				'content' 			=> $input['content'],
 				'status' 			=> $status,
 				'path_to_image' 	=> $input['path_to_image'],
-				'category_post_id' 	=> $category_post_id,
 				'user_id_maked' 	=> Auth::user()->user_id
 			);
 			$post_id = Posts::create($data)->post_id;
+
+			//Insert table: post_category
+			if(!empty($input['category'])){
+				for ($i=0; $i < count($input['category']); $i++) { 
+					DB::table('post_category')->insert([
+						'post_id' 		=> $post_id,
+						'category_id' 	=> $input['category'][$i]
+					]);
+				}
+			}
+
 			DB::commit();
 			return $post_id;
 		}catch(\Exception $e){
@@ -118,11 +121,18 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 	public function getDataPost($post_id)
 	{
 		$data = DB::table('posts')
-			->select('posts.*', 'users.name as nameUserMaked', 'users.email as emailUserMaked')
+			->select(
+				'posts.*'
+				, 'users.name as nameUserMaked'
+				, 'users.email as emailUserMaked'
+				, DB::raw("GROUP_CONCAT(post_category.category_id SEPARATOR ',') AS 'category_id'")
+			)
 			->leftjoin('users', 'users.user_id', '=', 'posts.user_id_maked')
+			->leftjoin('post_category', 'post_category.post_id', '=', 'posts.post_id')
 			->whereNull('posts.deleted_at')
 			->where('posts.post_id', '=', $post_id)
-			->first();
+			->groupBy('posts.post_id')
+			->get();
 		return $data;
 		
 	}
@@ -134,6 +144,7 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 			->whereNull('posts.deleted_at')
 			->where('posts.user_id_maked', '=',Auth::user()->user_id)
 			->leftjoin('users', 'users.user_id', '=', 'posts.user_id_maked')
+			->orderBy('posts.post_id', 'DESC')
 			->get();
 		return $data;
 	}
@@ -146,5 +157,57 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
 				'status' => $input['data']['status']
 			]);
 		return true;
+	}
+
+	public function update($input)
+	{
+		//echo "<pre>";print_r($input);exit;
+		DB::beginTransaction();
+		try{
+			//Check status: (với status = 1: công khai, status = 2: bản nháp)
+			if($input['save'] == 'save'){
+				$status = 1;
+			}
+			if($input['save'] == 'save-draft'){
+				$status = 2;
+			}
+
+			//Update table: posts
+			$data = array(
+				'title' 			=> $input['title'],
+				'content' 			=> $input['content'],
+				'status' 			=> $status,
+				'path_to_image' 	=> $input['path_to_image'],
+				'user_id_updated' 	=> Auth::user()->user_id
+			);
+			Posts::find($input['post_id'])->update($data);
+
+			//Update table: post_category
+			if(!empty($input['category'])){
+				DB::table('post_category')->where('post_id', '=', $input['post_id'])->delete();
+				for ($i=0; $i < count($input['category']); $i++) { 
+					DB::table('post_category')->insert([
+						'post_id' 		=> $input['post_id'],
+						'category_id' 	=> $input['category'][$i]
+					]);
+				}
+			}else{
+				DB::table('post_category')->where('post_id', '=', $input['post_id'])->delete();
+			}
+
+			DB::commit();
+			return true;
+		}catch(\Exception $e){
+			DB::rollback();
+			return false;
+		}
+	}
+
+	public function deletePosts($input)
+	{
+		if(!empty($input['checkbox'])) {
+            Posts::whereIn("post_id",$input['checkbox'])->delete(); 
+            return true;
+        }
 	}
 }

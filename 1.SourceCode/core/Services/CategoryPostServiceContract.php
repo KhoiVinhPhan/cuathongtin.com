@@ -13,4 +13,6 @@ interface CategoryPostServiceContract
     public function getDataPost($post_id);
     public function getDataPostWithUser();
     public function changeStatusPost($input);
+    public function update($input);
+    public function deletePosts($input);
 }

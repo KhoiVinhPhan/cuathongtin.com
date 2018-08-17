@@ -165,7 +165,6 @@ class CategoryProductRepository implements CategoryProductRepositoryContract
                             'sec_category'              => $array_sec_category,
                         );
         }
-        // echo "<pre>";print_r($result);exit;
         return $result;
     }
 }

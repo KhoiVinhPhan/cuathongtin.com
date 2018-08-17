@@ -81,7 +81,7 @@ class PostsController extends Controller
         $input = $request->all();
         if($post_id = $this->categoryPostService->store($input)){
             Session::flash('success', 'Tạo thành công');
-            return redirect('manager/posts/'.$post_id.'/edit');
+            return redirect('manager/posts');
         }else{
             Session::flash('error', 'Tạo không thành công');
             return redirect()->route('createPosts');
@@ -92,13 +92,22 @@ class PostsController extends Controller
     {
         $category_news  = $this->categoryPostService->getDataCategoryNew();
         $dataPost       = $this->categoryPostService->getDataPost($post_id);
-        $arrayCategorys = explode(',',$dataPost->category_post_id);
-
+        $arrayCategorys = explode(',',$dataPost[0]->category_id);
         //Check login
-        if($dataPost->user_id_maked !== Auth::user()->user_id){        
+        if($dataPost[0]->user_id_maked !== Auth::user()->user_id){        
             return redirect('/login');
         }
         return view('backend.posts.edit', compact('category_news', 'dataPost', 'arrayCategorys'));
+    }
+
+    public function update(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->update($input)){
+            return "success";
+        }else{
+            return "error";
+        }
     }
 
     public function changeStatusPost(Request $request)
@@ -111,4 +120,15 @@ class PostsController extends Controller
         }
     }
 
+    public function deletePosts(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->deletePosts($input)){
+            Session::flash('success', 'Xóa thành công');
+            return redirect('/manager/posts');
+        }else{
+            Session::flash('error', 'Xóa không thành công');
+            return redirect('/manager/posts');
+        }
+    }
 }

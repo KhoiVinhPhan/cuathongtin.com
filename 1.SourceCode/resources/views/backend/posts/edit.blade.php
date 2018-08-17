@@ -1,33 +1,35 @@
 @extends('layouts.backend.app')
 @section('content')
-<form action="" method="POST" accept-charset="utf-8" id="formEditPost">
+<form action="{{ route('updatePosts') }}" method="POST" accept-charset="utf-8" id="formEditPost">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<input type="hidden" name="_method" value="POST">
+	<input type="text" hidden name="post_id" value="{{ $dataPost[0]->post_id }}">
 	<div class="panel panel-primary form">
 	  	<div class="panel-heading">Chỉnh sửa bài viết</div>
 	  	<div class="panel-body">
 			<div class="col-sm-9">
 				<div class="form-group">
 		  			<label>Tiêu đề <span style="color: red">*</span></label>
-		  			<input type="text" class="form-control" name="title" value="{{ $dataPost->title }}">
+		  			<input type="text" class="form-control" name="title" value="{{ $dataPost[0]->title }}">
 		  		</div>
 		  		<div class="form-group">
 			         <label>Nội dung</label>
-			         <textarea name="content" class="form-control" id="editor">{{ $dataPost->content }}</textarea>
+			         <textarea name="content" class="form-control" id="editor">{{ $dataPost[0]->content }}</textarea>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="panel panel-default">
 				  	<div class="panel-heading"><span class="icon-bookmark"></span> Thông tin bài viết</div>
 				  	<div class="panel-body">
-				  		<p><span class="icon-user"></span> Người đăng: {{ $dataPost->nameUserMaked }}</p>
-				  		<p><span class="icon-calendar"></span> Ngày đăng: {{ date('d-m-Y', strtotime($dataPost->created_at)) }}</p>
-				  		<p><span class="icon-calendar"></span> Ngày cập nhật: {{ date('d-m-Y', strtotime($dataPost->updated_at)) }}</p>
-				  		<p><span class="icon-star"></span> Trạng thái: @if($dataPost->status == 1) <span>Công khai</span> @else <span>Bản nháp</span> @endif</p>
+				  		<p><span class="icon-user"></span> Người đăng: {{ $dataPost[0]->nameUserMaked }}</p>
+				  		<p><span class="icon-calendar"></span> Ngày đăng: {{ date('d-m-Y', strtotime($dataPost[0]->created_at)) }}</p>
+				  		<p><span class="icon-calendar"></span> Ngày cập nhật: {{ date('d-m-Y', strtotime($dataPost[0]->updated_at)) }}</p>
+				  		<p><span class="icon-star"></span> Trạng thái: @if($dataPost[0]->status == 1) <span class="status">Công khai</span> @else <span class="status">Bản nháp</span> @endif</p>
 				  	</div>
 				  	<div class="panel-footer">
-				  		<button name="save" id="btnSave" value="save" type="submit" class="btn btn-success btn-sm"><span class="icon icon-edit"></span> Chỉnh sửa</button>
-				  		<button name="save" id="btnSaveDraft" value="save-draft" type="submit" class="btn btn-default btn-sm"><span class="icon-save"></span> Lưu nháp</button>
+				  		<button id="btnSave" type="button" class="btn btn-success btn-sm"><span class="icon icon-edit"></span> Chỉnh sửa</button>
+				  		<button id="btnSaveDraft" type="button" class="btn btn-default btn-sm"><span class="icon-save"></span> Lưu nháp</button>
+				  		<input type="text" hidden name="save" id="save">
 				  	</div>
 				</div>
 
@@ -57,9 +59,9 @@
 
 				<div>
 					<p><span class="icon icon-picture"></span> Ảnh đại diện</p>
-					<img src="@if(empty($dataPost->path_to_image)) {{ asset('image_user/no_image.png') }} @else {{ $dataPost->path_to_image }} @endif" alt="" width="100%" height="auto" id="imgImageTitle">
+					<img src="@if(empty($dataPost[0]->path_to_image)) {{ asset('image_user/no_image.png') }} @else {{ $dataPost[0]->path_to_image }} @endif" alt="" width="100%" height="auto" id="imgImageTitle">
 					<button type="button" class="btn btn-info btn-block btn-sm" id="choice_image">Chọn ảnh</button>
-					<input type="hidden" class="form-control" name="path_to_image" id="path_to_image">
+					<input value="@if(!empty($dataPost[0]->path_to_image)) {{ $dataPost[0]->path_to_image }} @endif" type="hidden" class="form-control" name="path_to_image" id="path_to_image">
 				</div>
 
 			</div>
@@ -111,14 +113,51 @@
 
 		//Save post
 		$('#btnSave').click(function(){
-			if(! $('#formAddPost').valid()) return false;
-			$('#formAddPost').submit();
+			$('#save').val('save');
+			if(! $('#formEditPost').valid()) return false;
+			for (instance in CKEDITOR.instances) {
+		        CKEDITOR.instances[instance].updateElement();
+		    }
+			var data = $('#formEditPost').serialize();
+			$.ajax({
+				type: "POST",
+				url: "/manager/posts/update",
+				data: data,
+				success: function(result){
+					console.log(result);
+					$('.status').html('Công khai');
+					toastr.success('Cập nhật thành công');
+				},
+				error: function(result){
+					console.log(result);
+					toastr.error('Lỗi hệ thống');
+				}
+			});
+			
 		});
 
 		//Save draf post
 		$('#btnSaveDraft').click(function(){
-			if(! $('#formAddPost').valid()) return false;
-			$('#formAddPost').submit();
+			$('#save').val('save-draft');
+			if(! $('#formEditPost').valid()) return false;
+			for (instance in CKEDITOR.instances) {
+		        CKEDITOR.instances[instance].updateElement();
+		    }
+			var data = $('#formEditPost').serialize();
+			$.ajax({
+				type: "POST",
+				url: "/manager/posts/update",
+				data: data,
+				success: function(result){
+					console.log(result);
+					$('.status').html('Bản nháp');
+					toastr.success('Cập nhật thành công');
+				},
+				error: function(result){
+					console.log(result);
+					toastr.error('Lỗi hệ thống');
+				}
+			});
 		});
 	});
 

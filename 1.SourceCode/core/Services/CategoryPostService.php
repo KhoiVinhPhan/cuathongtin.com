@@ -58,4 +58,14 @@ class CategoryPostService implements CategoryPostServiceContract
          return $this->categorypostRepository->changeStatusPost($input);
     }
 
+    public function update($input)
+    {
+         return $this->categorypostRepository->update($input);
+    }
+
+    public function deletePosts($input)
+    {
+         return $this->categorypostRepository->deletePosts($input);
+    }
+
 }
