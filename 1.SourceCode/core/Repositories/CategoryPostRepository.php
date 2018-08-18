@@ -210,4 +210,15 @@ class CategoryPostRepository implements CategoryPostRepositoryContract
             return true;
         }
 	}
+
+	public function getDataPostAll()
+	{
+		$data = DB::table('posts')
+			->select('posts.*', 'users.name as nameUserMaked', 'users.email as emailUserMaked')
+			->whereNull('posts.deleted_at')
+			->leftjoin('users', 'users.user_id', '=', 'posts.user_id_maked')
+			->orderBy('posts.post_id', 'DESC')
+			->get();
+		return $data;
+	}
 }

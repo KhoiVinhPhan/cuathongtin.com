@@ -75,6 +75,10 @@ Route::group(['middleware' => 'Checklevel', 'prefix' => 'manager', 'namespace'=>
     Route::post('user/deleteChoice', 'UserController@deleteChoice')->name('deleteChoiceUser');
     Route::get('user/{user_id}/edit', 'UserController@edit')->name('editUser');
     Route::post('user/updateUserEdit', 'UserController@updateUserEdit')->name('updateUserEdit');
+
+    //POSTS
+    Route::get('admin/posts/show', 'PostsController@show')->name('showPosts');
+    Route::get('admin/posts/{post_id}/edit', 'PostsController@editIsAdmin')->name('editPostIsAdmin');
 });
 
 

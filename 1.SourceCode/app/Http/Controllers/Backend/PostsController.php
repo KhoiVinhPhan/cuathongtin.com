@@ -100,6 +100,14 @@ class PostsController extends Controller
         return view('backend.posts.edit', compact('category_news', 'dataPost', 'arrayCategorys'));
     }
 
+    public function editIsAdmin($post_id)
+    {
+        $category_news  = $this->categoryPostService->getDataCategoryNew();
+        $dataPost       = $this->categoryPostService->getDataPost($post_id);
+        $arrayCategorys = explode(',',$dataPost[0]->category_id);
+        return view('backend.posts.edit', compact('category_news', 'dataPost', 'arrayCategorys'));
+    }
+
     public function update(Request $request)
     {
         $input = $request->all();
@@ -130,5 +138,12 @@ class PostsController extends Controller
             Session::flash('error', 'Xóa không thành công');
             return redirect('/manager/posts');
         }
+    }
+
+    public function show()
+    {
+        $data = $this->categoryPostService->getDataPostAll();
+        // echo "<pre>";print_r($data);exit;
+        return view('backend.posts.isAdmin.show', compact('data'));
     }
 }

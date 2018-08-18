@@ -120,6 +120,13 @@
 		        <li><a title="Danh sách đã xóa" href="{{ route('trashUser') }}"><i class="icon-trash"></i> Thùng rác</a></li>
 	      	</ul>
 	    </li>
+	    <li class="dropdown" id="menu-post"><a href="#" data-toggle="dropdown" data-target="#menu-post" class="dropdown-toggle"><i class="icon icon-copy"></i> <span class="text">Quản lý bài viết</span><b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+		        <li><a title="Danh sách" href="{{ route('showPosts') }}"><i class="icon-th-list"></i> Danh sách bài viết</a></li>
+		        <li class="divider"></li>
+		        <li><a title="Danh sách đã xóa" href=""><i class="icon-trash"></i> Thùng rác</a></li>
+	      	</ul>
+	    </li>
   	</ul>
 </div>
 @else

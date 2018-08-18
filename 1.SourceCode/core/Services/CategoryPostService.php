@@ -68,4 +68,9 @@ class CategoryPostService implements CategoryPostServiceContract
          return $this->categorypostRepository->deletePosts($input);
     }
 
+    public function getDataPostAll()
+    {
+         return $this->categorypostRepository->getDataPostAll();
+    }
+
 }

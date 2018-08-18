@@ -15,4 +15,5 @@ interface CategoryPostRepositoryContract
 	public function changeStatusPost($input);
 	public function update($input);
 	public function deletePosts($input);
+	public function getDataPostAll();
 }
