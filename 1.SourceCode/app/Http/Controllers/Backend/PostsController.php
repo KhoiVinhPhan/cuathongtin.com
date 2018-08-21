@@ -140,6 +140,18 @@ class PostsController extends Controller
         }
     }
 
+    public function deletePostsAdmin(Request $request)
+    {
+        $input = $request->all();
+        if($this->categoryPostService->deletePosts($input)){
+            Session::flash('success', 'Xóa thành công');
+            return redirect('/manager/admin/posts/show');
+        }else{
+            Session::flash('error', 'Xóa không thành công');
+            return redirect('/manager/admin/posts/show');
+        }
+    }
+
     public function show()
     {
         $data = $this->categoryPostService->getDataPostAll();

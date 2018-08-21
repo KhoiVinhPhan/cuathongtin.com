@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 @section('content')
-<form action="{{ route('deletePosts') }}" method="POST" accept-charset="utf-8" id="formDeletePost">
+<form action="{{ route('deletePostsAdmin') }}" method="POST" accept-charset="utf-8" id="formDeletePost">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<input type="hidden" name="_method" value="POST">
 	<div class="panel panel-primary form">

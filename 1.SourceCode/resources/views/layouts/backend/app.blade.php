@@ -171,6 +171,12 @@
 		        <li class="{{ request()->is('manager/posts/category-post') ? 'active' : '' }}"><a href="{{ route('categoryPost') }}">Chuyên mục</a></li>
 	      	</ul>
 	    </li>
+	    <li class="submenu {{ request()->is('manager/products/create') ? 'active' : '' }}"> <a href="#"><i class="icon icon-th-list"></i> <span>Sản phẩm</span> <span class="label label-important">2</span></a>
+	      	<ul>
+	      		<li class=""><a href="">Danh sách</a></li>
+		        <li class="{{ request()->is('manager/products/create') ? 'active' : '' }}"><a href="{{ route('createProduct') }}">Thêm mới</a></li>
+	      	</ul>
+	    </li>
 	    
   	</ul>
 </div>

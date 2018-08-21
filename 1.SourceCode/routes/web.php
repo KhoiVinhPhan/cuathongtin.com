@@ -60,6 +60,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manager', 'namespace'=>'Backe
     Route::post('posts/update', 'PostsController@update')->name('updatePosts');
     Route::post('posts/change-status-post', 'PostsController@changeStatusPost')->name('changeStatusPost');
     Route::post('posts/delete-post', 'PostsController@deletePosts')->name('deletePosts');
+    Route::post('posts/delete-post-admin', 'PostsController@deletePostsAdmin')->name('deletePostsAdmin');
+
+    //PRODUCTS
+    Route::get('products/create', 'ProductsController@create')->name('createProduct');
 });
 
 
