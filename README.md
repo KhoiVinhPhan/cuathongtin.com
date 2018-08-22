@@ -28,3 +28,15 @@ table: category_news
 	user_update
 	user_delete
 
+table: products
+	product_id
+	name
+	image
+	price
+	description
+	details
+	availability (tình trạng: còn/hết/...)
+	status: (trạng thái: công khai/bản nháp)
+
+
+

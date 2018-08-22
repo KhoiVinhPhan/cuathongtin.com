@@ -33,6 +33,41 @@
 					      	</div>
 				    	</div>
 					</div>
+
+					<div class="">
+						<div class="col-md-4">
+						    <div class="thumbnail">
+						      	<a href="/w3images/lights.jpg">
+							        <img src="/imageServer/images/Banner/banner01.jpg" alt="Lights" style="width:100%">
+							        <div class="caption">
+							          	<p>Lorem ipsum...</p>
+							        </div>
+						      	</a>
+						    </div>
+						</div>
+						<div class="col-md-4">
+						    <div class="thumbnail">
+						      	<a href="/w3images/lights.jpg">
+							        <img src="/imageServer/images/Banner/banner01.jpg" alt="Lights" style="width:100%">
+							        <div class="caption">
+							          	<p>Lorem ipsum...</p>
+							        </div>
+						      	</a>
+						    </div>
+						</div>
+						<div class="col-md-4">
+						    <div class="thumbnail">
+						      	<a href="/w3images/lights.jpg">
+							        <img src="/imageServer/images/Banner/banner01.jpg" alt="Lights" style="width:100%">
+							        <div class="caption">
+							          	<p>Lorem ipsum...</p>
+							        </div>
+						      	</a>
+						    </div>
+						</div>
+
+					</div>			
+
 				</div>
 				<div class="col-sm-3">
 					<div class="panel panel-default">
